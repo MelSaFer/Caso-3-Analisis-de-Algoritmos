@@ -6,7 +6,11 @@ an SVG
 */
 #include <string>
 #include <vector>
-#include "Path.h"
+//#include "Path.h"
+#ifndef PATH_H
+#define PATH_H
+#endif
+
 
 using namespace std;
 

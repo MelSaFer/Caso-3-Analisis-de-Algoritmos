@@ -11,13 +11,9 @@ Students:
 #include <stdlib.h>    
 #include <iostream>
 #include "Circle.h"
-//#include "Rectangle.h"
+#include "Rectangle.h"
+#include "Ellipse.h"
 
-
-//#ifndef CIRCLE_H
-//#define CIRCLE_H
-
-//#endif
 
 
 using namespace std;
@@ -34,9 +30,9 @@ int main (){
     cout << circulo->getIdentifier() << endl;
 
 
-    //Rectangle* rect = new Rectangle();
-    //rect->setIdentifier("1614GE");
-    //cout << rect->getIdentifier() << endl;
+    Rectangle* rect = new Rectangle();
+    rect->setIdentifier("1614GE");
+    cout << rect->getIdentifier() << endl;
 
 
     return 0;
