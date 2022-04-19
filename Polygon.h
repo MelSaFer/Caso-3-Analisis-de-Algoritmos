@@ -22,11 +22,11 @@ class Polygon : public SvgShape{
             vertexPoints = pVertexPoints;
         }
 
-        vector<int*> setVertexPoints(){
+        vector<int*> getVertexPoints(){
             return vertexPoints;
         }
 
-        void addVertexPoints(int pPointX, int pPointY){
+        void addVertexPoint(int pPointX, int pPointY){
             int point[2];
             point[0]= pPointX;
             point[1]= pPointY;
