@@ -17,6 +17,8 @@ class SvgShape{
         string pathColor;
         int posibleFrames;
         vector<int*> movementPoints;
+        string strokeColor;
+        int strokeWidth;
     
     public:
         SvgShape(){};
@@ -71,6 +73,18 @@ class SvgShape{
             return movementPoints;
         }
         void addMovementPoint(int pMovement[2]){
-           movementPoints.push_back(pMovement);
-       }
+            movementPoints.push_back(pMovement);
+        }
+        void setStrokeColor(string pColor) {
+            strokeColor = pColor;
+        }
+        string getStrokeColor() {
+            return strokeColor;
+        }
+        void setStrokeWidth(int pWidth) {
+            strokeWidth = pWidth;
+        }
+        int getStrokeWidth() {
+            return strokeWidth;
+        }
 };
