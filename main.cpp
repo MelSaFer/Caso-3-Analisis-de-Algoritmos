@@ -12,7 +12,7 @@ Students:
 #include <iostream>
 #include "Circle.h"
 #include "Rectangle.h"
-#include "Ellipse.h"
+//#include "Ellipse.h"
 
 
 

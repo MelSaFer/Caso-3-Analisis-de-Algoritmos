@@ -7,14 +7,14 @@ an SVG
 #include <string>
 #include <vector>
 //#include "Path.h"
-#ifndef PATH_H
-#define PATH_H
+#ifndef SVGPATH_H
+#define SVGPATH_H
 #endif
 
 
 using namespace std;
 
-class Rectangle : public Paths{
+class Rectangle : public SvgShape{
     private:
         int width;
         int height;

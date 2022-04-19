@@ -6,14 +6,14 @@ an SVG
 */
 #include <string>
 #include <vector>
-#include "Path.h"
+#include "SvgShape.h"
 //#ifndef PATH_H
 //#define PATH_H
 //#endif
 
 using namespace std;
 
-class Circle : public Paths{
+class Circle : public SvgShape{
     private:
         int circleRadius;
     
