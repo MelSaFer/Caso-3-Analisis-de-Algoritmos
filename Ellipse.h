@@ -7,16 +7,36 @@ an SVG
 #include <string>
 #include <vector>
 //#include "Path.h"
-#ifndef PATH_H
-#define PATH_H
+#ifndef SVGPATH_H
+#define SVGPATH_H
 #endif
 
 
 using namespace std;
 
-class Ellipse : public Paths{
+class Ellipse : public SvgShape{
+    private:
+        int horizontalRadius;
+        int verticalRadius;
+    
+    public:
+        Ellipse(){};
 
+        void setHorizontalRadius(int pHorizontalRadius){
+            horizontalRadius = pHorizontalRadius;
+        }
 
+        int getHorizontalRadius(){
+            return horizontalRadius;
+        }
+
+        void setVerticalRadius(int pVerticalRadius){
+            verticalRadius = pVerticalRadius;
+        }
+
+        int getVerticalRadius(){
+            return verticalRadius;
+        }
 
 
 };
