@@ -14,7 +14,8 @@ Students:
 #include "Rectangle.h"
 #include "Ellipse.h"
 #include "Polygon.h"
-
+#include "Line.h"
+#include "Polyline.h"
 
 
 
@@ -31,7 +32,6 @@ int main (){
     cout <<"CIRCLE : \n" << circulo->getRadius() << endl;
     cout << circulo->getIdentifier() << endl;
 
-
     Rectangle* rect = new Rectangle();
     rect->setIdentifier("1614GE");
     cout <<"RECTANGLE: " << rect->getIdentifier() << endl;
@@ -44,6 +44,13 @@ int main (){
     pol->setIdentifier("16151kk");
     cout <<"POLYGON: "<< pol->getIdentifier() << endl;
 
+    Line* line = new Line();
+    line->setIdentifier("das334ghyc7");
+    cout <<"LINE: "<< line->getIdentifier() << endl;
+
+    Polyline* pl = new Polyline();
+    pl->setIdentifier("kj6k2p3");
+    cout <<"POLYLINE: "<< pl->getIdentifier() << endl;
 
     return 0;
 }
