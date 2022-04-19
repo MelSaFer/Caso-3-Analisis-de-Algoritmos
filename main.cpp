@@ -12,7 +12,9 @@ Students:
 #include <iostream>
 #include "Circle.h"
 #include "Rectangle.h"
-//#include "Ellipse.h"
+#include "Ellipse.h"
+#include "Polygon.h"
+
 
 
 
@@ -26,13 +28,21 @@ int main (){
     circulo->setRadius(2);
     circulo->setIdentifier("261GG");
 
-    cout << circulo->getRadius() << endl;
+    cout <<"CIRCLE : \n" << circulo->getRadius() << endl;
     cout << circulo->getIdentifier() << endl;
 
 
     Rectangle* rect = new Rectangle();
     rect->setIdentifier("1614GE");
-    cout << rect->getIdentifier() << endl;
+    cout <<"RECTANGLE: " << rect->getIdentifier() << endl;
+
+    Ellipse* eli = new Ellipse();
+    eli->setIdentifier("16151kk");
+    cout <<"ELLIPSE: " << eli->getIdentifier() << endl;
+
+    Polygon* pol = new Polygon();
+    pol->setIdentifier("16151kk");
+    cout <<"POLYGON: "<< pol->getIdentifier() << endl;
 
 
     return 0;
