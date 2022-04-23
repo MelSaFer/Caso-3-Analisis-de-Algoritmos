@@ -4,17 +4,39 @@ Main class used to save the path data. It's used in all three stages.
 
 #include <string>
 #include <vector>
+#include <iostream>
 using namespace std;
+
+//Struct for points in the path
+struct PointInPath{
+    int xCoordinate;
+    int yCoordinate;
+    string svgCommand;
+    int positionInCommand; //Use in figures with more than 1 point of reference (like curves)
+    bool isCoordinate;
+
+};
 
 /*Class Path*/
 class Path{
     private:
         string identifier;
         string pathColor;
-        string pathPoints;
+        vector<PointInPath> pathPoints;
         string pathStyle;
         string otherInformation;
+        int positionInPath;
+
     public:
+
+        void setPositionInPath(int pCurrentPosition){
+            positionInPath = pCurrentPosition;
+        }
+
+        int getPositionInPath(){
+            return positionInPath;
+        }
+
         void setIdentifier(string pIdentifer) {
             identifier = pIdentifer;
         }
@@ -30,9 +52,10 @@ class Path{
         }
 
         void setPathPoints(string pPoints) {
-            pathPoints = pPoints;
+            //cout << pPoints <<endl;
         }
-        string getPathPoints() {
+
+        vector<PointInPath> getPathPoints() {
             return pathPoints;
         }
 
@@ -44,7 +67,9 @@ class Path{
         }
 
         void toString(){
-            cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " << pathPoints << "\nStyle: " << pathStyle <<endl;
+            cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " << "\nPosition: " << positionInPath;
+            
+            cout<< "\nStyle: " << pathStyle <<endl;
         }
 
 

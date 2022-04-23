@@ -1,32 +1,47 @@
 #include <iostream>
-#include "rapidxml/rapidxml_ext.hpp" //Clases para manejo del DOM
-#include "rapidxml/rapidxml_utils.hpp" //Clase File
+#include "rapidxml/rapidxml_ext.hpp" //Class 
+#include "rapidxml/rapidxml_utils.hpp" //Class File
 #include <sstream>
 #include <fstream>
 #include <string>
 #include "Classes/Path.h"
 
 using namespace std;
-using namespace rapidxml; //Namespace de la librería
+using namespace rapidxml; //Namespace of the library
 
 void extractXMLData(xml_document<>* doc);
 void extractNodeData(xml_node<>* node);
 
-vector<Path*> svgPaths;
+vector<Path*> svgPaths;   //stores all the path while the program reads the file
+int pathPosition = 1;
 
-//Recorre el elemento raíz del documento
+//___________________________________________________________________________________________________________________________
+/* Funtion for extracting the data int the root of the document****
+Input: root of the tree after the parse****
+Return: None
+*/
 void extractXMLData(xml_document<>* doc){
     xml_node<>* node = doc->first_node();
-    extractNodeData(node);
+    extractNodeData(node);   //calls the funtion for extract the info of the node
 }
 
-//Recorre el resto de elementos del documento
+//___________________________________________________________________________________________________________________________
+/* Funtion for extracting the data int the node****
+Input: a node of the document(tree with information of the document)
+Return: None
+*/
 void extractNodeData(xml_node<>* node){
+    
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
         if (node->type() == node_element ){
+            //verifies if the node is a path
             if(node->name() == (string)"path"){
-                Path* currentPath = new Path(); 	
+                //Creates a new object of type Path
+                Path* currentPath = new Path(); 
+                currentPath->setPositionInPath(pathPosition);
+                pathPosition++;	
                 for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
+                    //assing the value to the respective variable
 					if (attrib->name() == (string)"id"){
 						currentPath->setIdentifier(attrib->value());
 					}
@@ -47,14 +62,16 @@ void extractNodeData(xml_node<>* node){
     }
 }
 
+//___________________________________________________________________________________________________________________________
+
 vector<Path*> pathDataProcessing(){
-    file<> file("recyclingsymbol.svg"); // Lee y carga el archivo en memoria
-  	xml_document<> myDoc; //Raíz del árbol DOM
-  	myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
+    file<> file("kiwi-fruit-svgrepo-com.svg"); // read the file
+  	xml_document<> myDoc; //root of the tree
+  	myDoc.parse<0>(file.data()); //Parse the XML into a DOM???
 
       //Recorrer elementos y atributos
 	extractXMLData(&myDoc);
-
+    //Verification-------------------
 	cout<< "\nPaths: "<< endl;
     for(int i = 0; i < svgPaths.size(); i++){
         cout<<"======================"<< endl;

@@ -10,12 +10,6 @@ Students:
 #include <stdio.h>      
 #include <stdlib.h>    
 #include <iostream>
-#include "Classes/Circle.h"
-#include "Classes/Rectangle.h"
-#include "Classes/Ellipse.h"
-#include "Classes/Polygon.h"
-#include "Classes/Line.h"
-#include "Classes/Polyline.h"
 #include "DataProcessing.h"
 
 
@@ -26,6 +20,7 @@ using namespace std;
 //Funtion main
 int main (){
     vector<Path*> svgPaths = pathDataProcessing();
+    
 
     return 0;
 }
