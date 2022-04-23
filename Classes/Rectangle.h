@@ -39,7 +39,7 @@ class Rectangle : public SvgShape{
             return height;
         }
 
-        int setRoundCorners( int pRoundX, int pRoundY){
+        void setRoundCorners( int pRoundX, int pRoundY){
             roundCorners[0] = pRoundX;
             roundCorners[1] = pRoundY;
         }
