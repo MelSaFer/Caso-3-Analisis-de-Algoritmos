@@ -65,7 +65,7 @@ void extractNodeData(xml_node<>* node){
 //___________________________________________________________________________________________________________________________
 
 vector<Path*> pathDataProcessing(){
-    file<> file("kiwi-fruit-svgrepo-com.svg"); // read the file
+    file<> file("Svg/recyclingsymbol.svg"); // read the file
   	xml_document<> myDoc; //root of the tree
   	myDoc.parse<0>(file.data()); //Parse the XML into a DOM???
 
