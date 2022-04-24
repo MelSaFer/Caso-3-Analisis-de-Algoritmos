@@ -66,10 +66,15 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
         finalPosition = indexInString;
 
         //Posible letters in the atribute d in a svg
-        if(pPointsSvg.at(indexInString) == 77 || pPointsSvg.at(indexInString) == 109 || pPointsSvg.at(indexInString) == 67\
-        ||pPointsSvg.at(indexInString) == 72 || pPointsSvg.at(indexInString) == 104 || pPointsSvg.at(indexInString) == 99 \
-        || pPointsSvg.at(indexInString) == 76 || pPointsSvg.at(indexInString) == 108 || pPointsSvg.at(indexInString) == 90\
-        || pPointsSvg.at(indexInString) == 122){
+        // [77,109 -> Mm] [76,108 -> Ll] [72,104 -> Hh] [86,118 -> Vv] [67,99 -> Cc] [83,115 -> Ss] [81,113 -> Qq] [84,116 -> Tt]
+        // [65,97 -> Aa] [90,122 -> Zz]
+        if(pPointsSvg.at(indexInString) == 77 || pPointsSvg.at(indexInString) == 109 || pPointsSvg.at(indexInString) == 76\
+        ||pPointsSvg.at(indexInString) == 108 || pPointsSvg.at(indexInString) == 72 || pPointsSvg.at(indexInString) == 104 \
+        || pPointsSvg.at(indexInString) == 67 || pPointsSvg.at(indexInString) == 99 || pPointsSvg.at(indexInString) == 83\
+        || pPointsSvg.at(indexInString) == 115 || pPointsSvg.at(indexInString) == 81 || pPointsSvg.at(indexInString) == 113\
+        || pPointsSvg.at(indexInString) == 84 || pPointsSvg.at(indexInString) == 116 || pPointsSvg.at(indexInString) == 65\
+        || pPointsSvg.at(indexInString) == 97 || pPointsSvg.at(indexInString) == 90 || pPointsSvg.at(indexInString) == 122\
+        || pPointsSvg.at(indexInString) == 86 || pPointsSvg.at(indexInString) == 118){
 
             if(flagIgnoreFirst != 0){
                 pPointsSvgCopy = pPointsSvg.substr(initialPosition, finalPosition-initialPosition);

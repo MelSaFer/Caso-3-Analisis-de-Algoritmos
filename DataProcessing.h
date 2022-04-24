@@ -50,6 +50,7 @@ void extractNodeData(xml_node<>* node){
                     }
                     else if (attrib->name() == (string)"d"){
                         currentPath->setPathPoints(attrib->value());
+                        cout << attrib->value();
                     }
                     else if (attrib->name() == (string)"style"){
                         currentPath->setPathStyle(attrib->value());
@@ -65,7 +66,7 @@ void extractNodeData(xml_node<>* node){
 //___________________________________________________________________________________________________________________________
 
 vector<Path*> pathDataProcessing(){
-    file<> file("Svg/recyclingsymbol.svg"); // read the file
+    file<> file("Svg/dollars.svg"); // read the file
   	xml_document<> myDoc; //root of the tree
   	myDoc.parse<0>(file.data()); //Parse the XML into a DOM???
 
