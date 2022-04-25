@@ -31,7 +31,8 @@ Input: a node of the document(tree with information of the document)
 Return: None
 */
 void extractNodeData(xml_node<>* node){
-    
+    cout << "Etiqueta: " << node->name() << endl;
+
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
         if (node->type() == node_element ){
             //verifies if the node is a path
@@ -50,7 +51,7 @@ void extractNodeData(xml_node<>* node){
                     }
                     else if (attrib->name() == (string)"d"){
                         currentPath->setPathPoints(attrib->value());
-                        cout << attrib->value();
+                        cout << "\n" << attrib->value();
                     }
                     else if (attrib->name() == (string)"style"){
                         currentPath->setPathStyle(attrib->value());
@@ -66,18 +67,18 @@ void extractNodeData(xml_node<>* node){
 //___________________________________________________________________________________________________________________________
 
 vector<Path*> pathDataProcessing(){
-    file<> file("Svg/dollars.svg"); // read the file
+    file<> file("Svg/wifi-1.svg"); // read the file
   	xml_document<> myDoc; //root of the tree
   	myDoc.parse<0>(file.data()); //Parse the XML into a DOM???
 
       //Recorrer elementos y atributos
 	extractXMLData(&myDoc);
     //Verification-------------------
-	cout<< "\nPaths: "<< endl;
-    for(int i = 0; i < svgPaths.size(); i++){
-        cout<<"======================"<< endl;
-        svgPaths[i]->toString();
-        cout<<"\n";
-    }
+	// cout<< "\nPaths: "<< endl;
+    // for(int i = 0; i < svgPaths.size(); i++){
+    //     cout<<"======================"<< endl;
+    //     svgPaths[i]->toString();
+    //     cout<<"\n";
+    // }
     return svgPaths; 
 }
