@@ -53,6 +53,56 @@ string normalizePath(string currentPointString){
     return normalizedString;   
 }
 
+PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathPoints){
+    cout << "\n-------> " << currentPointString << endl;
+    PointInPath currentPoint;
+    string copyCurrentPointString = currentPointString;   
+
+    if(pPathPoints.size() > 0){
+        PointInPath lastPoint;
+        lastPoint = pPathPoints.back(); 
+        if(currentPointString.at(0) == 118 || currentPointString.at(0) == 104){
+            currentPoint.xCoordinate = lastPoint.xCoordinate;
+            currentPoint.yCoordinate = lastPoint.yCoordinate;
+
+            cout << "Coordenada anterior = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl << endl;
+        }
+    }
+    // asignacion de que es m
+    currentPoint.svgCommand = currentPointString[0];
+    // se borra el m
+    currentPointString.erase(0,1);  
+    //string lectura; 
+    string actualNumberString;  
+    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
+
+    float actualNumber = 0;
+
+    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
+        
+        if (actualNumberString.length() > 0){
+
+            if (copyCurrentPointString.at(0) == 72 || copyCurrentPointString.at(0) == 104){
+                actualNumber = stof(actualNumberString);
+                currentPoint.xCoordinate += actualNumber;
+                pPathPoints.push_back(currentPoint);
+                cout << "Coordenada de h = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                }
+            else{
+                actualNumber = stof(actualNumberString);
+                cout << "Coordenada antes: " << currentPoint.yCoordinate << endl;
+                currentPoint.yCoordinate += actualNumber;
+                cout << "Coordenada despues: " << currentPoint.yCoordinate << endl;
+                cout << "Coordenada de v = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+            }
+            
+        }
+    }
+    cout << "Xvh= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
+    cout << "Letra: " << (copyCurrentPointString.at(0) == 104) << endl;
+    return currentPoint;
+}
+
 PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPoints){
     cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
@@ -259,6 +309,9 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
                 }
                 else if(pPointsSvgCopy.at(0) == 67 || pPointsSvgCopy.at(0) == 99){
                     specialCaseC(pPointsSvgCopy, pPathPoints);
+                }
+                else if((pPointsSvgCopy.at(0) == 72 || pPointsSvgCopy.at(0) == 104) || (pPointsSvgCopy.at(0) == 86 || pPointsSvgCopy.at(0) == 118)){
+                    specialCaseHV(pPointsSvgCopy, pPathPoints);
                 }
                 else{
                     currentPoint = parsePoint(pPointsSvgCopy, pPathPoints);
