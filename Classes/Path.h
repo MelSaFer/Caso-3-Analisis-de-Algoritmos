@@ -18,17 +18,13 @@ struct PointInPath{
 };
 
 string normalizePath(string currentPointString){
-
     string normalizedString;
-
     for(int currentLetter = 0; currentLetter < currentPointString.length(); currentLetter++){
         if(currentPointString.at(currentLetter) == 45){
-            normalizedString += " ";
-            
+            normalizedString += " ";        
         }
         normalizedString += currentPointString[currentLetter];
     }
-
     //cout << normalizedString << endl;
     return normalizedString;   
 }
@@ -45,16 +41,6 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     //cout << "valor de x : " << currentPoint.xCoordinate << endl;
     string copyCurrentPointString = currentPointString;   
 
-    // if(pPathPoints.size() > 0){
-    //     PointInPath lastPoint;
-    //     lastPoint = pPathPoints.back(); 
-    //     if(currentPointString.at(0) == 118 || currentPointString.at(0) == 104){
-    //         currentPoint.xCoordinate = lastPoint.xCoordinate;
-    //         currentPoint.yCoordinate = lastPoint.yCoordinate;
-
-    //         cout << "Coordenada anterior = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl << endl;
-    //     }
-    // }
     // asignacion de que es m
     currentPoint.svgCommand = currentPointString[0];
     // se borra el m
@@ -70,9 +56,7 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
         
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
-
-            if( copyCurrentPointString.at(0) == 72 ){
-                
+            if( copyCurrentPointString.at(0) == 72 ){               
                 currentPoint.xCoordinate = actualNumber;              
                 pPathPoints.push_back(currentPoint);
                 //cout << "Coordenada de H = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
@@ -97,6 +81,7 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     }
     //cout << "Xvh= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
     //cout << "Letra: " << (copyCurrentPointString.at(0) == 104) << endl;
+
     return currentPoint;
 }
 
@@ -125,15 +110,12 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
     stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
 
     float actualNumber = 0;
-
     int contadorSeis = 0;
 
-    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
-        
+    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){   
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
-            if (copyCurrentPointString.at(0) == 67){
-                
+            if (copyCurrentPointString.at(0) == 67){             
                 contadorSeis++;
                 if(contadorSeis == 5){
                     currentPoint.xCoordinate = actualNumber;
@@ -242,10 +224,10 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
     string copyCurrentPointString = currentPointString;
 
     currentPoint.svgCommand = currentPointString[0];
-    currentPointString.erase(0,1);
+    copyCurrentPointString.erase(0,1);
     
     string actualNumberString;  //string lectura; 
-    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
+    stringstream input_stringstream(copyCurrentPointString);  //stringstream input_stringstream(cadena); 
 
     bool isCoordinateX = 1;
     float actualNumber = 0;
@@ -263,7 +245,7 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
         }
     }
     if(pPathPoints.size() > 0){
-        if ((copyCurrentPointString.at(0) >= 97) && (copyCurrentPointString.at(0) <= 122)) {
+        if ((currentPointString.at(0) >= 97) && (currentPointString.at(0) <= 122)) {
             PointInPath lastPoint;
             lastPoint = pPathPoints.back();
             currentPoint.xCoordinate += lastPoint.xCoordinate;
