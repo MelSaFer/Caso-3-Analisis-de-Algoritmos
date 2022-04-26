@@ -31,7 +31,7 @@ Input: a node of the document(tree with information of the document)
 Return: None
 */
 void extractNodeData(xml_node<>* node){
-    cout << "Etiqueta: " << node->name() << endl;
+    //cout << "Etiqueta: " << node->name() << endl;
 
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
         if (node->type() == node_element ){
@@ -51,12 +51,14 @@ void extractNodeData(xml_node<>* node){
                     }
                     else if (attrib->name() == (string)"d"){
                         currentPath->setPathPoints(attrib->value());
-                        cout << "\n" << attrib->value();
+                        //cout << "\nhola" << attrib->value();
+                        currentPath->setQuadrantPoints();
                     }
                     else if (attrib->name() == (string)"style"){
                         currentPath->setPathStyle(attrib->value());
                     }
                 }
+                
 				svgPaths.push_back(currentPath);
             }
             extractNodeData(node);
