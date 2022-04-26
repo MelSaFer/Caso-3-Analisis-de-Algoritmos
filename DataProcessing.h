@@ -21,6 +21,7 @@ Input: root of the tree after the parse****
 Return: None
 */
 void extractXMLData(xml_document<>* doc){
+    
     xml_node<>* node = doc->first_node();
     extractNodeData(node);   //calls the funtion for extract the info of the node
 }
@@ -34,6 +35,7 @@ void extractNodeData(xml_node<>* node){
     //cout << "Etiqueta: " << node->name() << endl;
 
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
+        cout << "Cargando..." << endl;
         if (node->type() == node_element ){
             //verifies if the node is a path
             if(node->name() == (string)"path"){

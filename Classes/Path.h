@@ -29,12 +29,12 @@ string normalizePath(string currentPointString){
         normalizedString += currentPointString[currentLetter];
     }
 
-    cout << normalizedString << endl;
+    //cout << normalizedString << endl;
     return normalizedString;   
 }
 
 PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathPoints){
-    cout << "\n-------> " << currentPointString << endl;
+    //cout << "\n-------> " << currentPointString << endl;
 
     PointInPath lastPoint;
     lastPoint = pPathPoints.back();
@@ -42,7 +42,7 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     PointInPath currentPoint;
     currentPoint.xCoordinate = lastPoint.xCoordinate;
     currentPoint.yCoordinate = lastPoint.yCoordinate;
-    cout << "valor de x : " << currentPoint.xCoordinate << endl;
+    //cout << "valor de x : " << currentPoint.xCoordinate << endl;
     string copyCurrentPointString = currentPointString;   
 
     // if(pPathPoints.size() > 0){
@@ -64,7 +64,7 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
 
     float actualNumber = 0;
-    cout << "valor de x : " << currentPoint.xCoordinate << endl;
+    //cout << "valor de x : " << currentPoint.xCoordinate << endl;
 
     while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
         
@@ -75,33 +75,33 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
                 
                 currentPoint.xCoordinate = actualNumber;              
                 pPathPoints.push_back(currentPoint);
-                cout << "Coordenada de H = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                //cout << "Coordenada de H = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else if(copyCurrentPointString.at(0) == 104){
                 currentPoint.xCoordinate += actualNumber;              
                 pPathPoints.push_back(currentPoint);
-                cout << "Coordenada de h = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                //cout << "Coordenada de h = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else if(copyCurrentPointString.at(0) == 86){
                 currentPoint.yCoordinate = actualNumber;              
                 pPathPoints.push_back(currentPoint);
-                cout << "Coordenada de V = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                //cout << "Coordenada de V = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else{
                 currentPoint.yCoordinate += actualNumber;              
                 pPathPoints.push_back(currentPoint);
-                cout << "Coordenada de v = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                //cout << "Coordenada de v = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             
         }
     }
-    cout << "Xvh= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
-    cout << "Letra: " << (copyCurrentPointString.at(0) == 104) << endl;
+    //cout << "Xvh= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
+    //cout << "Letra: " << (copyCurrentPointString.at(0) == 104) << endl;
     return currentPoint;
 }
 
 PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPoints){
-    cout << "\n-------> " << currentPointString << endl;
+    //cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
     string copyCurrentPointString = currentPointString;   
 
@@ -113,7 +113,7 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
             currentPoint.xCoordinate = lastPoint.xCoordinate;
             currentPoint.yCoordinate = lastPoint.yCoordinate;
 
-            cout << "Coordenada anterior = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+            //cout << "Coordenada anterior = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
         }
     }
     // asignacion de que es m
@@ -142,11 +142,11 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
                     currentPoint.yCoordinate = actualNumber;
                     pPathPoints.push_back(currentPoint);
                     contadorSeis = 0;
-                    cout << "Coordenada de C = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                    //cout << "Coordenada de C = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                 }
             }
             else{
-                cout << "Es minuscula" << endl;
+                //cout << "Es minuscula" << endl;
                 contadorSeis++;
                 if(contadorSeis == 5){
                     currentPoint.xCoordinate += actualNumber;
@@ -155,38 +155,40 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
                     currentPoint.yCoordinate += actualNumber;
                     pPathPoints.push_back(currentPoint);
                     contadorSeis = 0;
-                    cout << "Coordenada de c = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                    //cout << "Coordenada de c = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                 }
             }
             
         }
     }
-    cout << "Xc= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
+    //cout << "Xc= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
     return currentPoint;
 }
 
 
 PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathPoints){
-    cout << "\n-------> " << currentPointString << endl;
+    //cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
+    currentPoint.xCoordinate = 0;
+    currentPoint.yCoordinate = 0;
     string copyCurrentPointString = currentPointString;
     
     if(pPathPoints.size() > 0){
         if(currentPointString.at(0) == 108){
             PointInPath lastPoint;
             lastPoint = pPathPoints.back(); 
-
             currentPoint.xCoordinate = lastPoint.xCoordinate;
             currentPoint.yCoordinate = lastPoint.yCoordinate;
         }
     }
-    
     
     // asignacion de que es m
     currentPoint.svgCommand = currentPointString[0];
 
     // se borra el m
     currentPointString.erase(0,1);
+
+    //cout << "ACT:" << currentPointString << endl;
     
     //string lectura; 
     string actualNumberString;  
@@ -204,10 +206,11 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
             if ((copyCurrentPointString.at(0) == 76) || (copyCurrentPointString.at(0) == 77)){
                 if(contadorPareja == 1){
                     currentPoint.xCoordinate = actualNumber;
+                    //cout << "ActualNumber:" << actualNumber<< " C: " << currentPoint.xCoordinate << endl;
                 }
                 else if(contadorPareja == 2){
                     currentPoint.yCoordinate = actualNumber;
-                    cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                    //cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                     pPathPoints.push_back(currentPoint);
                     contadorPareja = 0;
                 }
@@ -215,23 +218,25 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
             else{
                 if(contadorPareja == 1){
                     currentPoint.xCoordinate += actualNumber;
+                    //cout << "ActualNumber:" << actualNumber<< " C: " << currentPoint.xCoordinate << endl;
+
                 }
                 else if(contadorPareja == 2){
                     currentPoint.yCoordinate += actualNumber;
-                    cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                    //cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                     pPathPoints.push_back(currentPoint);
                     contadorPareja = 0;
                 }
             } 
         }
     }
-    cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
+    //cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
 
     return currentPoint;
 }
 
 PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoints){
-    cout << "\n-------> " << currentPointString << endl;
+    //cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
 
     string copyCurrentPointString = currentPointString;
@@ -265,7 +270,7 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
             currentPoint.yCoordinate += lastPoint.yCoordinate;
         }
     }
-    cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
+    //cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
     return currentPoint;
 }
 
@@ -416,7 +421,7 @@ class Path{
             minQuadrantPoint[0] = minXCoord;
             minQuadrantPoint[1] = minYCoord;
 
-            cout << "MX= " << maxQuadrantPoint[0] << " MY= " << maxQuadrantPoint[1] << " mX= " << minQuadrantPoint[0] << " mY= " << minQuadrantPoint[1] << endl;
+            //cout << "MX= " << maxQuadrantPoint[0] << " MY= " << maxQuadrantPoint[1] << " mX= " << minQuadrantPoint[0] << " mY= " << minQuadrantPoint[1] << endl;
 
         } 
 
