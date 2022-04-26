@@ -51,7 +51,7 @@ void extractNodeData(xml_node<>* node){
                     }
                     else if (attrib->name() == (string)"d"){
                         currentPath->setPathPoints(attrib->value());
-                        //cout << "\nhola" << attrib->value();
+                        //ccout << "\nhola" << attrib->value();
                         currentPath->setQuadrantPoints();
                     }
                     else if (attrib->name() == (string)"style"){

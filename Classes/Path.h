@@ -351,6 +351,22 @@ class Path{
 
         } 
 
+        int getMaxQuadrantCoordX(){
+            return maxQuadrantPoint[0];
+        }
+
+        int getMaxQuadrantCoordY(){
+            return maxQuadrantPoint[1];
+        }
+
+        int getMinQuadrantCoordX(){
+            return minQuadrantPoint[0];
+        }
+
+        int getMinQuadrantCoordY(){
+            return minQuadrantPoint[1];
+        }
+
         void toString(){
             cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " ;
             for(int indexOfCurrentPoint = 0; indexOfCurrentPoint < pathPoints.size(); indexOfCurrentPoint++){
