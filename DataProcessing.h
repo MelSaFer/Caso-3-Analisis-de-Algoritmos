@@ -6,6 +6,8 @@
 #include <string>
 #include "Classes/Path.h"
 
+
+
 using namespace std;
 using namespace rapidxml; //Namespace of the library
 
@@ -21,8 +23,43 @@ Input: root of the tree after the parse****
 Return: None
 */
 void extractXMLData(xml_document<>* doc){
-    
     xml_node<>* node = doc->first_node();
+
+    for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
+        if(attrib->name() == (string)"viewBox"){
+            string viewBoxString = attrib->value();
+            float svgWidth = 0, svgHeight = 0;
+            viewBoxString.erase(0,3);
+
+            //string lectura; 
+            string actualNumberString;
+            stringstream input_stringstream(viewBoxString);  //stringstream input_stringstream(cadena); 
+
+            float actualNumber = -1; // first time
+
+            while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
+                if (actualNumberString.length() > 0){
+                    if(actualNumber == -1){
+                        actualNumber = stof(actualNumberString);
+                        svgWidth = actualNumber;
+                    }
+                    else{
+                        actualNumber = stof(actualNumberString);
+                        svgHeight = actualNumber;
+                    }
+                } 
+
+
+            }
+
+            //cout << "Ancho: " << svgWidth << ", Alto: " << svgHeight << endl;
+            //cout << "String: " << viewBoxString << endl;
+            cout << attrib->name() << endl;
+            cout << attrib->value() << endl;
+        }
+        // cout << " Atributo: " << attrib->name() << endl;
+        // cout << "\tValor: " << attrib->value() << endl;
+    }
     extractNodeData(node);   //calls the funtion for extract the info of the node
 }
 
