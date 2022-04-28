@@ -1,17 +1,16 @@
 //Libraries ---------------------------------------------------------------------------------------------
+#ifndef SELECTION
+#define SELECTION
+
 #include <stdio.h>      
 #include <stdlib.h>    
 #include <iostream>
 #include <vector>
 #include <list>
 #include <thread>
-//#include "Path.h"
-#ifndef PATH_H
-#define PATH_H
-#endif
+#include "Path.h"
 
-
-#include "ObserverPattern\ObserverPattern2.h"
+#include "ObserverPattern.h"
 
 using namespace std;
 
@@ -92,8 +91,47 @@ class Selection : public Subject{
             return selectedPaths;
         }
 
+        vector<Path*> processOfSelection_nlogn(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            vector<Path*> selectedPaths;
+            bool itsAMatch = false;
+
+            for(int i =0; i < pPathsInTheSVG.size(); i++){
+
+                for(int j = 0; j < pPointsToFind.size(); j++){
+                    // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
+                    if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
+                    && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
+                        //cout << "Match" << endl;
+                        itsAMatch = true;
+                        if( pColorsToFind.size() == 0){
+                            selectedPaths.push_back(pPathsInTheSVG.at(i));
+                        }
+                    }
+                }
+
+                for(int j = 0; j < pColorsToFind.size(); j++){
+                    if(itsAMatch){
+                        selectedPaths.push_back(pPathsInTheSVG.at(i));
+                    }else{
+                        itsAMatch=false;
+                    }
+                }
+            }
+
+            for(int i = 0; i < selectedPaths.size(); i++){
+                cout << selectedPaths.at(i)->getIdentifier()<< endl;
+            }
+
+            //cout << "Contador: " << contador << endl;
+
+            return selectedPaths;
+        }
+
+
         void estoEsPrueba(){
             cout << "HOLA"<< endl;
         }
 
 };
+
+#endif

@@ -1,3 +1,5 @@
+#ifndef PLATAFORM
+#define PLATAFORM
 #include <iostream>
 #include <list>
 #include <vector>
@@ -30,3 +32,5 @@ class Plataform : public Observer {
         }
 
 };
+
+#endif

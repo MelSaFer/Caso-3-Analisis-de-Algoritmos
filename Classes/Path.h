@@ -2,9 +2,13 @@
 Main class used to save the path data. It's used in all three stages.
 */
 
+#ifndef PATH
+#define PATH
+
 #include <string>
 #include <vector>
 #include <iostream>
+#include<fstream>
 using namespace std;
 
 
@@ -325,6 +329,7 @@ class Path{
         int positionInPath;    
         float maxQuadrantPoint[2];
         float minQuadrantPoint[2];
+        float coincidencePoint[2];
 
     public:
 
@@ -339,6 +344,7 @@ class Path{
         void setIdentifier(string pIdentifer) {
             identifier = pIdentifer;
         }
+
         string getIdentifier() {
             return identifier;
         }
@@ -407,6 +413,11 @@ class Path{
 
         } 
 
+        void setCoincidencePoint( float pCoincidenceInX, float pCoincidenceInY){
+            coincidencePoint[0] = pCoincidenceInX;
+            
+        }
+
         float getMaxQuadrantCoordX(){
             return maxQuadrantPoint[0];
         }
@@ -436,3 +447,5 @@ class Path{
 
         
 };
+
+#endif

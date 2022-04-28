@@ -12,6 +12,7 @@ Students:
 #include <iostream>
 #include "DataProcessing.h"
 #include "Classes/SelectionClass.h"
+#include "Classes/GenerationClass.h"
 
 
 
@@ -44,7 +45,10 @@ int main (){
     vector<string> colors; 
     selection->processOfSelection(svgPaths, colors, points);
 
+    Generation* gen = new Generation();
+
     delete selection;
+    delete gen;
     return 0;
 
 

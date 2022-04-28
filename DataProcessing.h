@@ -1,3 +1,6 @@
+#ifndef DATAPROCESSING
+#define DATAPROCESSING
+
 #include <iostream>
 #include "rapidxml/rapidxml_ext.hpp" //Class 
 #include "rapidxml/rapidxml_utils.hpp" //Class File
@@ -5,6 +8,7 @@
 #include <fstream>
 #include <string>
 #include "Classes/Path.h"
+#include "Classes/SelectionClass.h"
 
 
 
@@ -125,3 +129,4 @@ vector<Path*> pathDataProcessing(){
     // }
     return svgPaths; 
 }
+#endif

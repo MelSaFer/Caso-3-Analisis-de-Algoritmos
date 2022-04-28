@@ -1,3 +1,6 @@
+#ifndef OBSERVERPATTERN
+#define OBSERVERPATTERN
+
 class Observer {
 public:
   virtual ~Observer(){};
@@ -11,5 +14,7 @@ public:
   virtual void attach(Observer *observer) = 0;
   virtual void detach(Observer *observer) = 0;
   virtual void notify(void* element) = 0;
-  //virtual void process(void* )
+  
 };
+
+#endif
