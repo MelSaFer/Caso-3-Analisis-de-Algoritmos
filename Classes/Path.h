@@ -178,36 +178,36 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
 
     float actualNumber = 0;
 
-    int contadorPareja = 0;
+    int isCoordXorY = 0;
 
     while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
         if (actualNumberString.length() > 0){
 
             actualNumber = stof(actualNumberString);
-            contadorPareja++;
+            isCoordXorY++;
             if ((copyCurrentPointString.at(0) == 76) || (copyCurrentPointString.at(0) == 77)){
-                if(contadorPareja == 1){
+                if(isCoordXorY == 1){
                     currentPoint.xCoordinate = actualNumber;
                     //cout << "ActualNumber:" << actualNumber<< " C: " << currentPoint.xCoordinate << endl;
                 }
-                else if(contadorPareja == 2){
+                else if(isCoordXorY == 2){
                     currentPoint.yCoordinate = actualNumber;
                     //cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                     pPathPoints.push_back(currentPoint);
-                    contadorPareja = 0;
+                    isCoordXorY = 0;
                 }
             }
             else{
-                if(contadorPareja == 1){
+                if(isCoordXorY == 1){
                     currentPoint.xCoordinate += actualNumber;
                     //cout << "ActualNumber:" << actualNumber<< " C: " << currentPoint.xCoordinate << endl;
 
                 }
-                else if(contadorPareja == 2){
+                else if(isCoordXorY == 2){
                     currentPoint.yCoordinate += actualNumber;
                     //cout << "Coordenada de m = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                     pPathPoints.push_back(currentPoint);
-                    contadorPareja = 0;
+                    isCoordXorY = 0;
                 }
             } 
         }
@@ -243,15 +243,15 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
                 isCoordinateX=1;
             }
         }
-    }
-    if(pPathPoints.size() > 0){
-        if ((currentPointString.at(0) >= 97) && (currentPointString.at(0) <= 122)) {
-            PointInPath lastPoint;
-            lastPoint = pPathPoints.back();
-            currentPoint.xCoordinate += lastPoint.xCoordinate;
-            currentPoint.yCoordinate += lastPoint.yCoordinate;
         }
-    }
+        if(pPathPoints.size() > 0){
+            if ((currentPointString.at(0) >= 97) && (currentPointString.at(0) <= 122)) {
+                PointInPath lastPoint;
+                lastPoint = pPathPoints.back();
+                currentPoint.xCoordinate += lastPoint.xCoordinate;
+                currentPoint.yCoordinate += lastPoint.yCoordinate;
+            }
+        }
     //cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
     return currentPoint;
 }

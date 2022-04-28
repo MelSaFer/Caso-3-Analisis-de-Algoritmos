@@ -24,6 +24,7 @@ void extractXMLData(xml_document<>* doc){
     
     xml_node<>* node = doc->first_node();
     extractNodeData(node);   //calls the funtion for extract the info of the node
+    
 }
 
 //___________________________________________________________________________________________________________________________
