@@ -10,7 +10,6 @@
 #define PATH_H
 #endif
 
-#include "SvgShape.h"
 
 #include "ObserverPattern\ObserverPattern2.h"
 
@@ -57,23 +56,35 @@ class Selection : public Subject{
             -Conquer: the selected path
             -Merge: The paths who has coincidences in at least one point and one color    
         -------------------------------------------------------------------------------*/
-        vector<SvgShape*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            vector<SvgShape*> selectedPaths;
-
-
-            int contador = 0;
+        vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            vector<Path*> selectedPaths;
+            bool itsAMatch = false;
 
             for(int i =0; i < pPathsInTheSVG.size(); i++){
-                contador ++;
+
                 for(int j = 0; j < pPointsToFind.size(); j++){
                     // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
-                    contador ++;
-
                     if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
                     && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
-                        cout << "Match" << endl;
+                        //cout << "Match" << endl;
+                        itsAMatch = true;
+                        if( pColorsToFind.size() == 0){
+                            selectedPaths.push_back(pPathsInTheSVG.at(i));
+                        }
                     }
                 }
+
+                for(int j = 0; j < pColorsToFind.size(); j++){
+                    if(itsAMatch){
+                        selectedPaths.push_back(pPathsInTheSVG.at(i));
+                    }else{
+                        itsAMatch=false;
+                    }
+                }
+            }
+
+            for(int i = 0; i < selectedPaths.size(); i++){
+                cout << selectedPaths.at(i)->getIdentifier()<< endl;
             }
 
             //cout << "Contador: " << contador << endl;

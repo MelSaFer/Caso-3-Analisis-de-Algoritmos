@@ -23,26 +23,29 @@ using namespace std;
 //Main --------------------------------------------------------------------------------------------------
 //Funtion main
 int main (){
+    
     vector<Path*> svgPaths = pathDataProcessing();
+    
     Selection* selection = new Selection();
-
     cout << "\n\n\n\n" << endl;
  
     float p1[2] = {500.848, 274.711};
-    //float p5[2] = {505.848, 270.711};
-    //float p2[2] = {300.848, 274.711}; 
-    // float p3[2] = {200.848, 474.711}; 
-    // float p4[2] = {50.848, 454.711}; 
+    float p5[2] = {505.848, 270.711};
+    float p2[2] = {300.848, 274.711}; 
+    float p3[2] = {200.848, 474.711}; 
+    float p4[2] = {50.848, 454.711}; 
     vector<float*> points;
     points.push_back(p1); 
-    // points.push_back(p2);
-    // points.push_back(p3);
-    // points.push_back(p4);
-    // points.push_back(p5);
+    points.push_back(p2);
+    points.push_back(p3);
+    points.push_back(p4);
+    points.push_back(p5);
 
     vector<string> colors; 
     selection->processOfSelection(svgPaths, colors, points);
 
     delete selection;
     return 0;
+
+
 }
