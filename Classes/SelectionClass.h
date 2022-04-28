@@ -91,36 +91,34 @@ class Selection : public Subject{
             return selectedPaths;
         }
 
-        vector<Path*> processOfSelection_nlogn(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            vector<Path*> selectedPaths;
+        vector<Path*> processOfSelection_nlogn(Path* currentPath ,vector<Path*> selectedPaths, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            //vector<Path*> selectedPaths;
             bool itsAMatch = false;
 
-            for(int i =0; i < pPathsInTheSVG.size(); i++){
-
-                for(int j = 0; j < pPointsToFind.size(); j++){
-                    // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
-                    if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
-                    && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
-                        //cout << "Match" << endl;
-                        itsAMatch = true;
-                        if( pColorsToFind.size() == 0){
-                            selectedPaths.push_back(pPathsInTheSVG.at(i));
-                        }
-                    }
-                }
-
-                for(int j = 0; j < pColorsToFind.size(); j++){
-                    if(itsAMatch){
-                        selectedPaths.push_back(pPathsInTheSVG.at(i));
-                    }else{
-                        itsAMatch=false;
+            for(int j = 0; j < pPointsToFind.size(); j++){
+                // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
+                if( (pPointsToFind.at(j)[0] >= currentPath->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= currentPath->getMaxQuadrantCoordX())\
+                && (pPointsToFind.at(j)[1] >= currentPath->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= currentPath->getMaxQuadrantCoordY())){
+                    //cout << "Match" << endl;
+                    itsAMatch = true;
+                    if( pColorsToFind.size() == 0){
+                        selectedPaths.push_back(currentPath);
                     }
                 }
             }
 
-            for(int i = 0; i < selectedPaths.size(); i++){
-                cout << selectedPaths.at(i)->getIdentifier()<< endl;
+            for(int j = 0; j < pColorsToFind.size(); j++){
+                if(itsAMatch){
+                    selectedPaths.push_back(currentPath);
+                }else{
+                    itsAMatch=false;
+                }
             }
+            
+
+            //for(int i = 0; i < selectedPaths.size(); i++){
+            //    cout << selectedPaths.at(i)->getIdentifier()<< endl;
+            //}
 
             //cout << "Contador: " << contador << endl;
 

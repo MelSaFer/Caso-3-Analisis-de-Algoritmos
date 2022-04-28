@@ -11,6 +11,7 @@ Students:
 #include <stdlib.h>    
 #include <iostream>
 #include "DataProcessing.h"
+#include "DataProcessingCopy.h"
 #include "Classes/SelectionClass.h"
 #include "Classes/GenerationClass.h"
 
@@ -43,11 +44,32 @@ int main (){
     points.push_back(p5);
 
     vector<string> colors; 
-    selection->processOfSelection(svgPaths, colors, points);
+
+    vector<Path*> selectedPaths;
+
+    selectedPaths = selection->processOfSelection(svgPaths, colors, points);
+
+    //---------------------------------
+    cout << "-----------------------------------" << endl;
+    Selection* selection2 = new Selection();
+    vector<Path*> svgPathsE = pathDataProcessing2(selection2, colors, points);
+
+    cout << "Comprobacion" << endl;
+
+    for (int i = 0; i < selectedPaths.size(); i++)
+    {
+        cout << "1- " << selectedPaths.at(i)->getIdentifier() << endl;
+
+        cout << "2- " << svgPathsE.at(i)->getIdentifier() << endl;
+
+    }
+  
+
 
     Generation* gen = new Generation();
 
     delete selection;
+    delete selection2;
     delete gen;
     return 0;
 
