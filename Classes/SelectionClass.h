@@ -1,26 +1,25 @@
 //Libraries ---------------------------------------------------------------------------------------------
+#ifndef SELECTION
+#define SELECTION
+
 #include <stdio.h>      
 #include <stdlib.h>    
 #include <iostream>
 #include <vector>
 #include <list>
 #include <thread>
-// #include "Path.h"
-#ifndef PATH_H
-#define PATH_H
-#endif
-#include "SvgShape.h"
+#include "Path.h"
 
-//#include "ObserverPattern\ObserverPattern2.h"
+#include "ObserverPattern.h"
 
 using namespace std;
 
 
-class Selection{ //: public Subject{
+class Selection : public Subject{
     private:
         //Paths selecionados
         static const int ClassId = 1;
-        //list<Observer*> ObserversList; 
+        list<Observer*> ObserversList; 
 
     public:
         
@@ -28,24 +27,24 @@ class Selection{ //: public Subject{
         Selection() {}
         ~Selection() {}
 
-        // void attach(Observer* pNewObserver) {
-        //     ObserversList.emplace_back(pNewObserver);
-        // }
+        void attach(Observer* pNewObserver) {
+            ObserversList.emplace_back(pNewObserver);
+        }
 
-        // void detach(Observer* pObserverDelete) {
-        //     ObserversList.remove(pObserverDelete);
-        // }
+        void detach(Observer* pObserverDelete) {
+            ObserversList.remove(pObserverDelete);
+        }
 
-        // void notify(void* pClassId) {
-        //     for (Observer* currentObserver: ObserversList) {
-        //         thread t(&Observer::update, currentObserver, pClassId); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
-        //         t.join(); // espere a que t termine
-        //     }
-        // }
+        void notify(void* pClassId) {
+            for (Observer* currentObserver: ObserversList) {
+                thread t(&Observer::update, currentObserver, pClassId); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
+                t.join(); // espere a que t termine
+            }
+        }
 
-        // int getClassId(){
-        //     return ClassId;
-        // }
+        int getClassId(){
+            return ClassId;
+        }
 
         /*------------------------------------------------------------------------------
         Function for selecting the paths who has coincidences in the list of
@@ -56,67 +55,83 @@ class Selection{ //: public Subject{
             -Conquer: the selected path
             -Merge: The paths who has coincidences in at least one point and one color    
         -------------------------------------------------------------------------------*/
-        vector<SvgShape*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            vector<SvgShape*> selectedPaths;
-            // int maxVectorLenght;
-            // if(pPointsToFind.size() < pColorsToFind.size()){
-            //     maxVectorLenght = pColorsToFind.size();
-            // } else{
-            //     maxVectorLenght = pPointsToFind.size();
-            // }
-            // //In here the n is travelled
-            // for( int currentPathIndex = 0; currentPathIndex < pPathsInTheSVG.size() ; currentPathIndex++){
-            //     //
-            //     for( int currentPointIndex = 0; currentPointIndex < maxVectorLenght; currentPointIndex++){
-            //         if(currentPathIndex < pColorsToFind.size()){
-
-            //         } else if (currentPathIndex < pPointsToFind.size()){
-            //             cout << "Point = " << pPointsToFind.at(currentPointIndex)[0] << ", " << pPointsToFind.at(currentPointIndex)[1] << endl;
-            //             cout << "coordenadas: " << pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordX() << ", " << pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordY()\
-            //                 << " / " << pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordX() << ", " << pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordY() << endl;
-                        
-            //             if(  (pPointsToFind.at(currentPointIndex)[0] >= pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordX() )\
-            //             && (pPointsToFind.at(currentPointIndex)[0] <= pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordX())
-            //             && (pPointsToFind.at(currentPointIndex)[1] >= pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordY()) &&\
-            //             (pPointsToFind.at(currentPointIndex)[1] <= pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordY()))
-            //             {
-            //                 cout << "coincidencia en X" << endl;
-            //                 cout << "Path: " << pPathsInTheSVG.at(currentPathIndex)->getIdentifier() << endl;
-            //                 cout << "coordenadas: " << pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordX() << ", " << pPathsInTheSVG.at(currentPathIndex)->getMaxQuadrantCoordY()\
-            //                 << " / " << pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordX() << ", " << pPathsInTheSVG.at(currentPathIndex)->getMinQuadrantCoordY() << endl;    
-            //             }
-            //         }
-            //     }
-
-            // }
-
-            // for (int i = 0; i < pPointsToFind.size(); i++){
-            //     cout << i << endl;
-            //     cout << "Point = " << pPointsToFind.at(i)[0] << ", " << pPointsToFind.at(i)[1] << endl;
-            // }
-
-            int contador = 0;
+        vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            vector<Path*> selectedPaths;
+            bool itsAMatch = false;
 
             for(int i =0; i < pPathsInTheSVG.size(); i++){
-                contador ++;
+
                 for(int j = 0; j < pPointsToFind.size(); j++){
                     // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
-                    contador ++;
-
                     if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
                     && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
-                        cout << "Match" << endl;
+                        //cout << "Match" << endl;
+                        itsAMatch = true;
+                        if( pColorsToFind.size() == 0){
+                            selectedPaths.push_back(pPathsInTheSVG.at(i));
+                        }
+                    }
+                }
+
+                for(int j = 0; j < pColorsToFind.size(); j++){
+                    if(itsAMatch){
+                        selectedPaths.push_back(pPathsInTheSVG.at(i));
+                    }else{
+                        itsAMatch=false;
                     }
                 }
             }
 
-            cout << "Contador: " << contador << endl;
+            for(int i = 0; i < selectedPaths.size(); i++){
+                cout << selectedPaths.at(i)->getIdentifier()<< endl;
+            }
+
+            //cout << "Contador: " << contador << endl;
 
             return selectedPaths;
         }
+
+        vector<Path*> processOfSelection_nlogn(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            vector<Path*> selectedPaths;
+            bool itsAMatch = false;
+
+            for(int i =0; i < pPathsInTheSVG.size(); i++){
+
+                for(int j = 0; j < pPointsToFind.size(); j++){
+                    // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
+                    if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
+                    && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
+                        //cout << "Match" << endl;
+                        itsAMatch = true;
+                        if( pColorsToFind.size() == 0){
+                            selectedPaths.push_back(pPathsInTheSVG.at(i));
+                        }
+                    }
+                }
+
+                for(int j = 0; j < pColorsToFind.size(); j++){
+                    if(itsAMatch){
+                        selectedPaths.push_back(pPathsInTheSVG.at(i));
+                    }else{
+                        itsAMatch=false;
+                    }
+                }
+            }
+
+            for(int i = 0; i < selectedPaths.size(); i++){
+                cout << selectedPaths.at(i)->getIdentifier()<< endl;
+            }
+
+            //cout << "Contador: " << contador << endl;
+
+            return selectedPaths;
+        }
+
 
         void estoEsPrueba(){
             cout << "HOLA"<< endl;
         }
 
 };
+
+#endif

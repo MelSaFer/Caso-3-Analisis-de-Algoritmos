@@ -1,11 +1,14 @@
 //Libraries ---------------------------------------------------------------------------------------------
+
+#ifndef ROUTING
+#define ROUTING
 #include <stdio.h>      
 #include <stdlib.h>    
 #include <iostream>
 #include <vector>
 #include <list>
 #include <thread>
-//#include "ObserverPattern\ObserverPattern2.h"
+#include "ObserverPattern.h"
 
 using namespace std;
 
@@ -37,3 +40,5 @@ class Routing : public Subject{
         //
 
 };
+
+#endif

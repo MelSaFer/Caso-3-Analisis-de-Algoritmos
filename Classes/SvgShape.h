@@ -3,13 +3,16 @@ Main class used to save the path data and generate
 the animation. It's used in all three stages.
 */
 
+#ifndef SVGSHAPE
+#define SVGSHAPE
+
 #include <string>
 #include <vector>
 using namespace std;
 
 /*Class SvgShape*/
 class SvgShape{
-    protected:
+    private:
         string identifier;
         int initialXYPoints[2];
         int finalXYPoints[2];
@@ -88,3 +91,5 @@ class SvgShape{
             return strokeWidth;
         }
 };
+
+#endif
