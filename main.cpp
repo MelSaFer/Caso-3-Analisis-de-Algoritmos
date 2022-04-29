@@ -56,7 +56,8 @@ int main (){
     //---------------------------------
     cout << "-----------------------------------" << endl;
     Selection* selection2 = new Selection();
-    vector<Path*> svgPathsE = pathDataProcessing2(selection2, colors, points);
+    vector<Path*> selectedPaths2 = selection2->selecctionDivide(svgPaths, colors, points);
+    //vector<Path*> svgPathsE = pathDataProcessing2(selection2, colors, points);
 
     cout << "Comprobacion" << endl;
 
@@ -64,9 +65,13 @@ int main (){
     {
         cout << "1- " << selectedPaths.at(i)->getIdentifier() << endl;
 
-        cout << "2- " << svgPathsE.at(i)->getIdentifier() << endl;
+    }
+    for (int i = 0; i < selectedPaths2.size(); i++)
+    {
+        cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
 
     }
+    //cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
     
     int code = selection->getClassId();
 

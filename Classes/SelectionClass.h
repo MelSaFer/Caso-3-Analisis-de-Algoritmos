@@ -55,6 +55,56 @@ class Selection : public Subject{
             -Conquer: the selected path
             -Merge: The paths who has coincidences in at least one point and one color    
         -------------------------------------------------------------------------------*/
+
+        /*
+        In this section we divede our n in paths and call the funcion who analices** the coincidence in the path (selectionConquer)
+        */
+        vector<Path*> selecctionDivide(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            vector<Path*> selectedPaths;
+
+            for(int currentPathIndex = 0; currentPathIndex < pPathsInTheSVG.size(); currentPathIndex++){
+                if(this->selectionConquer(pPathsInTheSVG.at(currentPathIndex), pColorsToFind, pPointsToFind)){
+                    selectedPaths.push_back(pPathsInTheSVG.at(currentPathIndex));
+                } 
+            }
+
+            return selectedPaths;
+        }
+
+        bool selectionConquer(Path* pCurrentPath, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+            bool itsAMatch = false;
+            int maxSizeInList = 0;
+            if(pColorsToFind.size() > pPointsToFind.size()){
+                maxSizeInList = pColorsToFind.size();
+            } else{
+                maxSizeInList = pPointsToFind.size();                
+            }
+
+            cout << maxSizeInList << endl;
+            
+            for(int currentComparisonIndex = 0; currentComparisonIndex < maxSizeInList; currentComparisonIndex++){
+                if(currentComparisonIndex < pPointsToFind.size()){
+                    if( (pPointsToFind.at(currentComparisonIndex)[0] >= pCurrentPath->getMinQuadrantCoordX()) && \
+                        (pPointsToFind.at(currentComparisonIndex)[0] <= pCurrentPath->getMaxQuadrantCoordX()) && \
+                        (pPointsToFind.at(currentComparisonIndex)[1] >= pCurrentPath->getMinQuadrantCoordY()) &&\
+                        (pPointsToFind.at(currentComparisonIndex)[1] <= pCurrentPath->getMaxQuadrantCoordY())){
+                        cout << "Match" << pCurrentPath->getIdentifier() << endl;
+                        itsAMatch = true;
+                        if( pColorsToFind.size() == 0){
+                            return true;
+                        } //end special case
+                    }//endComparing points
+                }
+                if(currentComparisonIndex < pColorsToFind.size()){
+                    if(itsAMatch)
+                        return true;
+                }
+            }
+            return false;
+        }
+
+
+
         vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
             vector<Path*> selectedPaths;
             bool itsAMatch = false;
