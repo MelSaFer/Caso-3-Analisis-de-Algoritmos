@@ -3,13 +3,14 @@
 #ifndef GENERATION
 #define GENERATION
 
-#include <stdio.h>      
-#include <stdlib.h>    
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <vector>
 #include <list>
 #include <thread>
 #include "Path.h"
+#include "ProducerConsumer.h"
 
 #include "ObserverPattern.h"
 
@@ -18,7 +19,7 @@ class Generation : public Subject{
     private:
         //Paths selecionados
         static const int ClassId = 2;
-        list<Observer*> ObserversList; 
+        list<Observer*> ObserversList;
 
     public:
         //

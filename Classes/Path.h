@@ -9,6 +9,8 @@ Main class used to save the path data. It's used in all three stages.
 #include <vector>
 #include <iostream>
 #include<fstream>
+#include <sstream>
+
 using namespace std;
 
 
