@@ -47,7 +47,11 @@ int main (){
     points.push_back(p4);
     points.push_back(p5);
 
-    vector<string> colors;
+
+    vector<string> colors; 
+    string color1 = "#bf7f24";
+    colors.push_back(color1);
+    selection->processOfSelection(svgPaths, colors, points);
 
     vector<Path*> selectedPaths;
 
