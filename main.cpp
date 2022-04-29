@@ -43,6 +43,8 @@ int main (){
     points.push_back(p5);
 
     vector<string> colors; 
+    string color1 = "#bf7f24";
+    colors.push_back(color1);
     selection->processOfSelection(svgPaths, colors, points);
 
     Generation* gen = new Generation();

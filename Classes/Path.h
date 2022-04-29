@@ -8,7 +8,7 @@ Main class used to save the path data. It's used in all three stages.
 #include <string>
 #include <vector>
 #include <iostream>
-#include<fstream>
+#include <fstream>
 using namespace std;
 
 

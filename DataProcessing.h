@@ -101,7 +101,9 @@ void extractNodeData(xml_node<>* node){
                         currentPath->setQuadrantPoints();
                     }
                     else if (attrib->name() == (string)"style"){
-                        currentPath->setPathStyle(attrib->value());
+                        string pathStyle = attrib->value();
+                        string pathColor = pathStyle.substr(5,11);
+                        currentPath->setPathColor(pathColor);
                     }
                 }
                 
