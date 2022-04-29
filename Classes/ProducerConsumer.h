@@ -10,17 +10,22 @@
 #include <queue>
 #include <iostream>
 #include <fstream>
-#include <thread> //Permite ejecutar varias tareas (hilos)
-//#include <unistd.h> //with _WIN32
+#include <thread>
+#include <Classes/Path.h>
+//#include <
 
 
 using namespace std;
 int opcion;
-queue<string> pathQueue;  //Declarando la cola de strings
+queue<Path*> pathQueue;  //Queue of paths
 
 
 
-void productor(){
+void productor(vector<Path*> allPaths){
+    for(int currentPathIndex = 0 ; currentPathIndex < allPaths.size(); currentPathIndex++ ){
+        //Modificacion del path
+    }
+    //for(int )
     // int salida=false;
     // while(!salida){
     //     Sleep(1000);

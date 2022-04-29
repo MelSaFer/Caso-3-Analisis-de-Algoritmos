@@ -35,9 +35,9 @@ class Selection : public Subject{
             ObserversList.remove(pObserverDelete);
         }
 
-        void notify(void* pClassId) {
+        void notify(void* pClassId, vector<Path*> pPaths) {
             for (Observer* currentObserver: ObserversList) {
-                thread t(&Observer::update, currentObserver, pClassId); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
+                thread t(&Observer::update, currentObserver, pClassId, pPaths); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
                 t.join(); // espere a que t termine
             }
         }
