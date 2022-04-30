@@ -50,11 +50,11 @@ int main (){
 
     vector<string> colors; 
     string color1 = "#bf7f24";
-    string color2 = "#122aa1";
+    string color2 = "#1133FF";
     colors.push_back(color1);
     colors.push_back(color2);
 
-    selection->processOfSelection(svgPaths, colors, points);
+    //selection->processOfSelection(svgPaths, colors, points);
 
     vector<Path*> selectedPaths;
 
