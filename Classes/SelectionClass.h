@@ -93,9 +93,19 @@ class Selection : public Subject{
                 maxSizeInList = pPointsToFind.size();                
             }
 
+            colorTextPathRed = pCurrentPath->getPathColor().substr(1,2).data();
+            colorTextPathGreen = pCurrentPath->getPathColor().substr(3,2).data();
+            colorTextPathBlue = pCurrentPath->getPathColor().substr(5,6).data();
+
+            rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
+            rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
+            rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
+
             //cout << maxSizeInList << endl;
             
             for(int currentComparisonIndex = 0; currentComparisonIndex < maxSizeInList; ){
+                // cout << "Trabajando" << endl;
+                itsAMatch = false;
                 if(currentComparisonIndex < pPointsToFind.size()){
                     if( (pPointsToFind.at(currentComparisonIndex)[0] >= pCurrentPath->getMinQuadrantCoordX()) && \
                         (pPointsToFind.at(currentComparisonIndex)[0] <= pCurrentPath->getMaxQuadrantCoordX()) && \
@@ -105,19 +115,13 @@ class Selection : public Subject{
                         itsAMatch = true;
                         if( pColorsToFind.size() == 0){
                             pSelectedPaths.push_back(pCurrentPath);
-                            currentComparisonIndex++;
+                            //currentComparisonIndex++;
                         } //end special case
                     }//endComparing points
                 }
 
                 //COMPARISON OF COLORS-------------------------------------------------------------------------------
-                colorTextPathRed = pCurrentPath->getPathColor().substr(1,2).data();
-                colorTextPathGreen = pCurrentPath->getPathColor().substr(3,2).data();
-                colorTextPathBlue = pCurrentPath->getPathColor().substr(5,6).data();
-
-                rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
-                rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
-                rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
+                
 
                 if(currentComparisonIndex < pColorsToFind.size()){
                     colorTextRed = pColorsToFind.at(currentComparisonIndex).substr(1,2).data();
@@ -126,23 +130,23 @@ class Selection : public Subject{
                     rgbColors[0] = strtol(colorTextRed, NULL, 16);
                     rgbColors[1] = strtol(colorTextGreen, NULL, 16);
                     rgbColors[2] = strtol(colorTextBlue, NULL, 16);
-                    // cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+                    cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
 
                     rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
                     rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
                     rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
 
-                    // cout << "Suma: " << rgbDifferences[0] << endl;
+                     cout << "Suma: " << rgbDifferences[0] << endl;
 
                     rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
 
                     // cout << "La diferencia es de: " << rbgComparison << endl;
 
                     if(rbgComparison <= 15 && itsAMatch){
-                        cout << "son colores parecidos" << endl;
+                        cout << "son colores parecidos e hizo match" << endl;
                         pSelectedPaths.push_back(pCurrentPath);
-                        currentComparisonIndex++;
-                        continue;
+                        //currentComparisonIndex++;
+                        //continue;
                     }
                 }
                 currentComparisonIndex++;
@@ -214,7 +218,8 @@ class Selection : public Subject{
                     // cout << "La diferencia es de: " << rbgComparison << endl;
 
                     if(rbgComparison <= 15 && itsAMatch){
-                        cout << "son colores parecidos" << endl;
+                        cout << "son colores parecidos: " << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+                        cout << rgbColorsPath[0] << ", " << rgbColorsPath[1] << ", " << rgbColorsPath[2] << endl;
                         selectedPaths.push_back(pPathsInTheSVG.at(i));
                     }
 
@@ -227,6 +232,7 @@ class Selection : public Subject{
 
             //cout << "Contador: " << contador << endl;
 
+            cout << "============================================="  << endl;
             return selectedPaths;
         }
 
