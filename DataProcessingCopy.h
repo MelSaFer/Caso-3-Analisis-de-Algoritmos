@@ -56,7 +56,6 @@ void extractXMLData(xml_document<>* doc, Selection* selec, vector<string> pColor
                     }
                 } 
 
-
             }
 
             //cout << "Ancho: " << svgWidth << ", Alto: " << svgHeight << endl;

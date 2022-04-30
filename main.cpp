@@ -47,7 +47,14 @@ int main (){
     points.push_back(p4);
     points.push_back(p5);
 
-    vector<string> colors;
+
+    vector<string> colors; 
+    string color1 = "#bf7f24";
+    string color2 = "#122aa1";
+    colors.push_back(color1);
+    colors.push_back(color2);
+
+    selection->processOfSelection(svgPaths, colors, points);
 
     vector<Path*> selectedPaths;
 
@@ -57,7 +64,9 @@ int main (){
     cout << "-----------------------------------" << endl;
     Selection* selection2 = new Selection();
     vector<Path*> selectedPaths2 = selection2->selecctionDivide(svgPaths, colors, points);
-    //vector<Path*> svgPathsE = pathDataProcessing2(selection2, colors, points);
+
+    //Selection* selection3 = new Selection();
+    //vector<Path*> svgPathsE = pathDataProcessing2(selection3, colors, points);
 
     cout << "Comprobacion" << endl;
 
@@ -66,19 +75,26 @@ int main (){
         cout << "1- " << selectedPaths.at(i)->getIdentifier() << endl;
 
     }
+
     for (int i = 0; i < selectedPaths2.size(); i++)
     {
+        //cout << selectedPaths2.size() << endl;
         cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
 
     }
-    //cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
+
+    // for (int i = 0; i < svgPathsE.size(); i++)
+    // {
+    //     //cout << "3- " << svgPathsE.at(i)->getIdentifier() << endl;
+
+    // }
+
     
     int code = selection->getClassId();
 
     int* ClassId = &code;
     selection->notify(ClassId, selectedPaths);
 
-    cout << "Holaaa"<< endl;
 
 
    // Generation* gen = new Generation();
