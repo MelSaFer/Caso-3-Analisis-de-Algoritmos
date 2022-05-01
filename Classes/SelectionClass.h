@@ -121,8 +121,6 @@ class Selection : public Subject{
                 }
 
                 //COMPARISON OF COLORS-------------------------------------------------------------------------------
-                
-
                 if(currentComparisonIndex < pColorsToFind.size()){
                     colorTextRed = pColorsToFind.at(currentComparisonIndex).substr(1,2).data();
                     colorTextGreen = pColorsToFind.at(currentComparisonIndex).substr(3,2).data();
@@ -144,9 +142,13 @@ class Selection : public Subject{
 
                     if(rbgComparison <= 15 && itsAMatch){
                         cout << "son colores parecidos e hizo match" << endl;
+                        //Aqui supuestamente se agrega el punto de coincidencia, hay que revisar xD
+                        pCurrentPath->addCoincidencePoint(pCurrentPath->getPathPoints(currentComparisonIndex));
                         pSelectedPaths.push_back(pCurrentPath);
                         //currentComparisonIndex++;
                         //continue;
+
+                        
                     }
                 }
                 currentComparisonIndex++;

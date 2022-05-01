@@ -1,4 +1,4 @@
-/* 
+/*
 Main class used to save the path data. It's used in all three stages.
 */
 
@@ -20,18 +20,20 @@ struct PointInPath{
     string svgCommand;
     //int positionInCommand; //Use in figures with more than 1 point of reference (like curves)
     //bool isCoordinate;
+    //Creo que aqui deberia haber una lista de movimientos de este punto, no en el path en si como lo tenemos
+    //pero si usted lo ve bien asi super, yo solo digo, por eso no lo cambie. Atte: Mel;)
 };
 
 string normalizePath(string currentPointString){
     string normalizedString;
     for(int currentLetter = 0; currentLetter < currentPointString.length(); currentLetter++){
         if(currentPointString.at(currentLetter) == 45){
-            normalizedString += " ";        
+            normalizedString += " ";
         }
         normalizedString += currentPointString[currentLetter];
     }
     //cout << normalizedString << endl;
-    return normalizedString;   
+    return normalizedString;
 }
 
 PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathPoints){
@@ -44,44 +46,44 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     currentPoint.xCoordinate = lastPoint.xCoordinate;
     currentPoint.yCoordinate = lastPoint.yCoordinate;
     //cout << "valor de x : " << currentPoint.xCoordinate << endl;
-    string copyCurrentPointString = currentPointString;   
+    string copyCurrentPointString = currentPointString;
 
     // asignacion de que es m
     currentPoint.svgCommand = currentPointString[0];
     // se borra el m
-    currentPointString.erase(0,1);  
-    //string lectura; 
-    string actualNumberString;  
-    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
+    currentPointString.erase(0,1);
+    //string lectura;
+    string actualNumberString;
+    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena);
 
     float actualNumber = 0;
     //cout << "valor de x : " << currentPoint.xCoordinate << endl;
 
     while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
-        
+
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
-            if( copyCurrentPointString.at(0) == 72 ){               
-                currentPoint.xCoordinate = actualNumber;              
+            if( copyCurrentPointString.at(0) == 72 ){
+                currentPoint.xCoordinate = actualNumber;
                 pPathPoints.push_back(currentPoint);
                 //cout << "Coordenada de H = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else if(copyCurrentPointString.at(0) == 104){
-                currentPoint.xCoordinate += actualNumber;              
+                currentPoint.xCoordinate += actualNumber;
                 pPathPoints.push_back(currentPoint);
                 //cout << "Coordenada de h = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else if(copyCurrentPointString.at(0) == 86){
-                currentPoint.yCoordinate = actualNumber;              
+                currentPoint.yCoordinate = actualNumber;
                 pPathPoints.push_back(currentPoint);
                 //cout << "Coordenada de V = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
             else{
-                currentPoint.yCoordinate += actualNumber;              
+                currentPoint.yCoordinate += actualNumber;
                 pPathPoints.push_back(currentPoint);
                 //cout << "Coordenada de v = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
             }
-            
+
         }
     }
     //cout << "Xvh= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
@@ -93,12 +95,12 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
 PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPoints){
     //cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
-    string copyCurrentPointString = currentPointString;   
+    string copyCurrentPointString = currentPointString;
 
     if(pPathPoints.size() > 0){
         if(currentPointString.at(0) == 99){
             PointInPath lastPoint;
-            lastPoint = pPathPoints.back(); 
+            lastPoint = pPathPoints.back();
 
             currentPoint.xCoordinate = lastPoint.xCoordinate;
             currentPoint.yCoordinate = lastPoint.yCoordinate;
@@ -109,18 +111,18 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
     // asignacion de que es m
     currentPoint.svgCommand = currentPointString[0];
     // se borra el m
-    currentPointString.erase(0,1);  
-    //string lectura; 
-    string actualNumberString;  
-    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
+    currentPointString.erase(0,1);
+    //string lectura;
+    string actualNumberString;
+    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena);
 
     float actualNumber = 0;
     int contadorSeis = 0;
 
-    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){   
+    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
-            if (copyCurrentPointString.at(0) == 67){             
+            if (copyCurrentPointString.at(0) == 67){
                 contadorSeis++;
                 if(contadorSeis == 5){
                     currentPoint.xCoordinate = actualNumber;
@@ -145,7 +147,7 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
                     //cout << "Coordenada de c = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
                 }
             }
-            
+
         }
     }
     //cout << "Xc= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
@@ -159,16 +161,16 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
     currentPoint.xCoordinate = 0;
     currentPoint.yCoordinate = 0;
     string copyCurrentPointString = currentPointString;
-    
+
     if(pPathPoints.size() > 0){
         if(currentPointString.at(0) == 108){
             PointInPath lastPoint;
-            lastPoint = pPathPoints.back(); 
+            lastPoint = pPathPoints.back();
             currentPoint.xCoordinate = lastPoint.xCoordinate;
             currentPoint.yCoordinate = lastPoint.yCoordinate;
         }
     }
-    
+
     // asignacion de que es m
     currentPoint.svgCommand = currentPointString[0];
 
@@ -176,10 +178,10 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
     currentPointString.erase(0,1);
 
     //cout << "ACT:" << currentPointString << endl;
-    
-    //string lectura; 
-    string actualNumberString;  
-    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena); 
+
+    //string lectura;
+    string actualNumberString;
+    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena);
 
     float actualNumber = 0;
 
@@ -214,7 +216,7 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
                     pPathPoints.push_back(currentPoint);
                     isCoordXorY = 0;
                 }
-            } 
+            }
         }
     }
     //cout << "X= " << currentPoint.xCoordinate << " Y: " << currentPoint.yCoordinate << endl;
@@ -230,9 +232,9 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
 
     currentPoint.svgCommand = currentPointString[0];
     copyCurrentPointString.erase(0,1);
-    
-    string actualNumberString;  //string lectura; 
-    stringstream input_stringstream(copyCurrentPointString);  //stringstream input_stringstream(cadena); 
+
+    string actualNumberString;  //string lectura;
+    stringstream input_stringstream(copyCurrentPointString);  //stringstream input_stringstream(cadena);
 
     bool isCoordinateX = 1;
     float actualNumber = 0;
@@ -269,7 +271,7 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
 
     int pPointsSvgLenght = pPointsSvg.length();
     string pPointsSvgCopy;
-    
+
 
     for (int indexInString = 0; indexInString < pPointsSvgLenght; indexInString++){
         //Replace al the "," for " "
@@ -283,7 +285,7 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
             if(flagIgnoreFirst != 0){
                 pPointsSvgCopy = pPointsSvg.substr(initialPosition, finalPosition-initialPosition);
                 //Variables for reading the numbers in the string of the currentPoint
-                
+
                 if(pPointsSvgCopy.at(1) != 32){
                     pPointsSvgCopy.insert(1, " ");
                 }
@@ -304,9 +306,9 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
                 else{
                     currentPoint = parsePoint(pPointsSvgCopy, pPathPoints);
                     pPathPoints.push_back(currentPoint);
-                } 
+                }
             }
-            initialPosition = indexInString;       
+            initialPosition = indexInString;
             flagIgnoreFirst ++;
         }
     }
@@ -327,10 +329,11 @@ class Path{
         vector<PointInPath> pathPoints;
         string pathStyle;
         string otherInformation;
-        int positionInPath;    
+        int positionInPath;
         float maxQuadrantPoint[2];
         float minQuadrantPoint[2];
-        float coincidencePoint[2];
+        //float coincidencePoint[2];
+        vector<PointInPath> coincidencePoints;
 
     public:
 
@@ -359,11 +362,15 @@ class Path{
 
         void setPathPoints(string pPoints) {
             pathPoints = decomposeString(pPoints, pathPoints);
-            
+
         }
 
         vector<PointInPath> getPathPoints() {
             return pathPoints;
+        }
+
+        PointInPath getPathPoints(int indexOfPoint) {
+            return pathPoints.at(indexOfPoint);
         }
 
         void setPathStyle(string pStyle) {
@@ -392,7 +399,7 @@ class Path{
                         maxXCoord = pathPoints.at(currentPointIndex).xCoordinate;
                     } else if ( maxYCoord < pathPoints.at(currentPointIndex).yCoordinate){
                         maxYCoord = pathPoints.at(currentPointIndex).yCoordinate;
-                    } 
+                    }
 
                     if( minXCoord > pathPoints.at(currentPointIndex).xCoordinate){
                         minXCoord = pathPoints.at(currentPointIndex).xCoordinate;
@@ -406,18 +413,22 @@ class Path{
 
             maxQuadrantPoint[0] = maxXCoord ;
             maxQuadrantPoint[1] = maxYCoord;
-            
+
             minQuadrantPoint[0] = minXCoord;
             minQuadrantPoint[1] = minYCoord;
 
             //cout << "MX= " << maxQuadrantPoint[0] << " MY= " << maxQuadrantPoint[1] << " mX= " << minQuadrantPoint[0] << " mY= " << minQuadrantPoint[1] << endl;
 
-        } 
-
-        void setCoincidencePoint( float pCoincidenceInX, float pCoincidenceInY){
-            coincidencePoint[0] = pCoincidenceInX;
-            
         }
+
+        void addCoincidencePoint(PointInPath coincidencePoint){
+            coincidencePoints.push_back(coincidencePoint);
+        }
+
+        vector<PointInPath> getCoincidencePoints(){
+            return coincidencePoints;
+        }
+
 
         float getMaxQuadrantCoordX(){
             return maxQuadrantPoint[0];
@@ -435,6 +446,7 @@ class Path{
             return minQuadrantPoint[1];
         }
 
+
         void toString(){
             cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " ;
             for(int indexOfCurrentPoint = 0; indexOfCurrentPoint < pathPoints.size(); indexOfCurrentPoint++){
@@ -446,7 +458,7 @@ class Path{
         }
 
 
-        
+
 };
 
 #endif

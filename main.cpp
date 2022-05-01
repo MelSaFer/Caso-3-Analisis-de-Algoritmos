@@ -48,7 +48,7 @@ int main (){
     points.push_back(p5);
 
 
-    vector<string> colors; 
+    vector<string> colors;
     string color1 = "#bf7f24";
     string color2 = "#1133FF";
     colors.push_back(color1);
@@ -73,6 +73,7 @@ int main (){
     for (int i = 0; i < selectedPaths.size(); i++)
     {
         cout << "1- " << selectedPaths.at(i)->getIdentifier() << endl;
+        cout << "--" << selectedPaths.at(i)->getPositionInPath() << endl;
 
     }
 
@@ -80,6 +81,7 @@ int main (){
     {
         //cout << selectedPaths2.size() << endl;
         cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
+        cout << "--" << selectedPaths2.at(i)->getPositionInPath() << endl;
 
     }
 
@@ -89,7 +91,7 @@ int main (){
 
     // }
 
-    
+
     int code = selection->getClassId();
 
     int* ClassId = &code;
@@ -97,7 +99,7 @@ int main (){
 
 
 
-   // Generation* gen = new Generation();
+   //Generation* gen = new Generation();
 
     delete selection;
     delete selection2;

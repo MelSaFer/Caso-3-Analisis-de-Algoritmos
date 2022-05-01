@@ -45,6 +45,29 @@ class Generation : public Subject{
             return ClassId;
         }
 
+        /*
+        Generation Process
+        Dinamic Programing:
+            -n= The paths after the modifications in Routing
+            -Stages: all the points in the SVG
+            -Local Optimun: The modifided points in the current path
+            -Global Optimun: All the new paths
+            -Memorization: We use the previus path to improve the current path
+        */
+
+        void generateNewPath(vector<Path*> allPaths, vector<Path*> selectedAndModifiedPaths){
+            for(int currentPathIndex  = 0; currentPathIndex < allPaths.size(); currentPathIndex++){
+
+            }
+
+        }
+
+        void stages(Path* pCurrentPath, pPreviusPath){
+            //for( int currentPointInPath = 0; currentPointInPath < pCurrentPath->)
+
+
+        }
+
 };
 
 #endif
