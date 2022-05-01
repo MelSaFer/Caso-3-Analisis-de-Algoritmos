@@ -10,10 +10,6 @@
 #include "Classes/Path.h"
 #include "Classes/SelectionClass.h"
 
-
-
-
-
 using namespace std;
 using namespace rapidxml; //Namespace of the library
 

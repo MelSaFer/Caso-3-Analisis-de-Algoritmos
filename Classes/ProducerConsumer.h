@@ -11,7 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
-#include <Classes/Path.h>
+//#include <Classes/Path.h>
 
 
 
@@ -21,10 +21,10 @@ queue<Path*> pathQueue;  //Queue of paths
 
 
 
-void productor(vector<Path*> allPaths){
-    for(int currentPathIndex = 0 ; currentPathIndex < allPaths.size(); currentPathIndex++ ){
+void productor(){
+    //for(int currentPathIndex = 0 ; currentPathIndex < allPaths.size(); currentPathIndex++ ){
         //Modificacion del path
-    }
+    //}
     //for(int )
     // int salida=false;
     // while(!salida){

@@ -14,7 +14,7 @@ Students:
 #include "DataProcessingCopy.h"
 #include "Classes/SelectionClass.h"
 #include "Classes/Plataform.h"
-//#include "Classes/GenerationClass.h"
+#include "Classes/GenerationClass.h"
 
 
 
@@ -76,7 +76,7 @@ int main (){
     // for (int i = 0; i < selectedPaths.size(); i++)
     // {
     //     selectedPaths.at(i)->toString();
-        
+
 
     // }
 
@@ -103,11 +103,13 @@ int main (){
 
 
 
-   //Generation* gen = new Generation();
+   Generation* gen = new Generation();
+   cout << "call" << endl;
+   gen->generateNewPath(selectedPaths2);
 
     delete selection;
     delete selection2;
-    //delete gen;
+    delete gen;
     return 0;
 
 

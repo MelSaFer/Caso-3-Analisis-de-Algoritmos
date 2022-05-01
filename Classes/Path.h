@@ -429,6 +429,10 @@ class Path{
             return coincidencePoints;
         }
 
+        float* getCoincidencePoints(int pIndexOfCoincidencePoint){
+            return coincidencePoints.at(pIndexOfCoincidencePoint);
+        }
+
 
         float getMaxQuadrantCoordX(){
             return maxQuadrantPoint[0];
@@ -458,7 +462,7 @@ class Path{
             cout << "Coincidence Points: " ;
             for(int indexOfCurrentCoincidencePoint = 0; indexOfCurrentCoincidencePoint < coincidencePoints.size(); indexOfCurrentCoincidencePoint++){
                 cout << "X: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[0] << " Y: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[1] << endl;
-               
+
             }
         }
 
