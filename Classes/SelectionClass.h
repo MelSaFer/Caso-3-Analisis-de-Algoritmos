@@ -46,7 +46,7 @@ class Selection : public Subject{
             return ClassId;
         }
 
-        /*------------------------------------------------------------------------------
+        /*------------------------------------------------------------------------------------------------------------------------------
         Function for selecting the paths who has coincidences in the list of
         points and colors
         ->Divide and Conquer Algorithm
@@ -54,7 +54,7 @@ class Selection : public Subject{
             -Divide: Path
             -Conquer: the selected path
             -Merge: The paths who has coincidences in at least one point and one color    
-        -------------------------------------------------------------------------------*/
+        --------------------------------------------------------------------------------------------------------------------------------*/
 
          /*
         In this section we divede our n in paths and call the funcion who analices** the coincidence in the path (selectionConquer)
@@ -70,10 +70,15 @@ class Selection : public Subject{
             return selectedPaths;
         }
 
+        //------------------------------------------------------------------------------------------------------------------------------
+        /*In this part we analize every path acording to the colors and the points*/
         vector<Path*> selectionConquer(Path* pCurrentPath, vector<Path*> pSelectedPaths, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            bool itsAMatch = false;
-            int maxSizeInList = 0;
 
+            //This variables are used like flags for the colors and points
+            bool itsAColorMatch = false;
+            bool itsACoordinateMatch = false;
+            
+            //This variables are used for analice the colors acording to the rgb code
             float rgbColors[3] = {0,0,0};
             float rgbColorsPath[3] = {0,0,0};
             float rgbDifferences[3];
@@ -87,12 +92,6 @@ class Selection : public Subject{
             char *colorTextPathGreen;
             char *colorTextPathBlue;
 
-            if(pColorsToFind.size() > pPointsToFind.size()){
-                maxSizeInList = pColorsToFind.size();
-            } else{
-                maxSizeInList = pPointsToFind.size();                
-            }
-
             colorTextPathRed = pCurrentPath->getPathColor().substr(1,2).data();
             colorTextPathGreen = pCurrentPath->getPathColor().substr(3,2).data();
             colorTextPathBlue = pCurrentPath->getPathColor().substr(5,6).data();
@@ -101,61 +100,51 @@ class Selection : public Subject{
             rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
             rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
 
-            //cout << maxSizeInList << endl;
-            
-            for(int currentComparisonIndex = 0; currentComparisonIndex < maxSizeInList; ){
-                // cout << "Trabajando" << endl;
-                itsAMatch = false;
-                if(currentComparisonIndex < pPointsToFind.size()){
-                    if( (pPointsToFind.at(currentComparisonIndex)[0] >= pCurrentPath->getMinQuadrantCoordX()) && \
-                        (pPointsToFind.at(currentComparisonIndex)[0] <= pCurrentPath->getMaxQuadrantCoordX()) && \
-                        (pPointsToFind.at(currentComparisonIndex)[1] >= pCurrentPath->getMinQuadrantCoordY()) &&\
-                        (pPointsToFind.at(currentComparisonIndex)[1] <= pCurrentPath->getMaxQuadrantCoordY())){
-                        cout << "Match " << pCurrentPath->getIdentifier() << endl;
-                        itsAMatch = true;
-                        if( pColorsToFind.size() == 0){
-                            pSelectedPaths.push_back(pCurrentPath);
-                            //currentComparisonIndex++;
-                        } //end special case
-                    }//endComparing points
+            //This variable is use in the cicles
+            int currentComparisonIndex;
+
+            //this cicle is for analice the color in the list of colors
+            for(currentComparisonIndex = 0; currentComparisonIndex < pColorsToFind.size(); currentComparisonIndex++){
+
+                colorTextRed = pColorsToFind.at(currentComparisonIndex).substr(1,2).data();
+                colorTextGreen = pColorsToFind.at(currentComparisonIndex).substr(3,2).data();
+                colorTextBlue = pColorsToFind.at(currentComparisonIndex).substr(5,6).data();
+                rgbColors[0] = strtol(colorTextRed, NULL, 16);
+                rgbColors[1] = strtol(colorTextGreen, NULL, 16);
+                rgbColors[2] = strtol(colorTextBlue, NULL, 16);
+
+                rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
+                rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
+                rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
+
+                rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
+
+                if(rbgComparison <= 15){
+                    itsAColorMatch = true; //if one color is similar to the color of the path means that is is candidate
+                    break;  //Just one coincidence is necesary in the colors
                 }
 
-                //COMPARISON OF COLORS-------------------------------------------------------------------------------
-                if(currentComparisonIndex < pColorsToFind.size()){
-                    colorTextRed = pColorsToFind.at(currentComparisonIndex).substr(1,2).data();
-                    colorTextGreen = pColorsToFind.at(currentComparisonIndex).substr(3,2).data();
-                    colorTextBlue = pColorsToFind.at(currentComparisonIndex).substr(5,6).data();
-                    rgbColors[0] = strtol(colorTextRed, NULL, 16);
-                    rgbColors[1] = strtol(colorTextGreen, NULL, 16);
-                    rgbColors[2] = strtol(colorTextBlue, NULL, 16);
-                    cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+            }
 
-                    rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
-                    rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
-                    rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
+            //this cicle is for analice the points in the list of points
+            for(currentComparisonIndex = 0; currentComparisonIndex < pPointsToFind.size() && itsAColorMatch; currentComparisonIndex++){
+                if( (pPointsToFind.at(currentComparisonIndex)[0] >= pCurrentPath->getMinQuadrantCoordX()) && \
+                    (pPointsToFind.at(currentComparisonIndex)[0] <= pCurrentPath->getMaxQuadrantCoordX()) && \
+                    (pPointsToFind.at(currentComparisonIndex)[1] >= pCurrentPath->getMinQuadrantCoordY()) &&\
+                    (pPointsToFind.at(currentComparisonIndex)[1] <= pCurrentPath->getMaxQuadrantCoordY())){
 
-                     cout << "Suma: " << rgbDifferences[0] << endl;
-
-                    rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
-
-                    // cout << "La diferencia es de: " << rbgComparison << endl;
-
-                    if(rbgComparison <= 15 && itsAMatch){
-                        cout << "son colores parecidos e hizo match" << endl;
-                        //Aqui supuestamente se agrega el punto de coincidencia, hay que revisar xD
-                        pCurrentPath->addCoincidencePoint(pCurrentPath->getPathPoints(currentComparisonIndex));
-                        pSelectedPaths.push_back(pCurrentPath);
-                        //currentComparisonIndex++;
-                        //continue;
-
-                        
-                    }
+                    itsACoordinateMatch=true; //The path has at least one point of coincidence
+                    pCurrentPath->addCoincidencePoint(pPointsToFind.at(currentComparisonIndex));
                 }
-                currentComparisonIndex++;
+            }
+
+            if(itsACoordinateMatch){
+                pSelectedPaths.push_back(pCurrentPath);  
             }
             return pSelectedPaths;
         }
 
+        //------------------------------------------------------------------------------------------------------------------------------
         vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
             vector<Path*> selectedPaths;
             bool itsAMatch = false;
@@ -175,6 +164,7 @@ class Selection : public Subject{
 
             for(int i =0; i < pPathsInTheSVG.size(); i++){
                 // cout << "Color: " << pPathsInTheSVG.at(i)->getPathColor() << endl;
+                itsAMatch = false;
 
                 for(int j = 0; j < pPointsToFind.size(); j++){
                     // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
@@ -184,6 +174,8 @@ class Selection : public Subject{
                         itsAMatch = true;
                         if( pColorsToFind.size() == 0){
                             selectedPaths.push_back(pPathsInTheSVG.at(i));
+                            pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
+                            itsAMatch = false;
                         }
                     }
                 }
@@ -220,9 +212,11 @@ class Selection : public Subject{
                     // cout << "La diferencia es de: " << rbgComparison << endl;
 
                     if(rbgComparison <= 15 && itsAMatch){
-                        cout << "son colores parecidos: " << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
-                        cout << rgbColorsPath[0] << ", " << rgbColorsPath[1] << ", " << rgbColorsPath[2] << endl;
+                        // cout << "son colores parecidos: " << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+                        // cout << rgbColorsPath[0] << ", " << rgbColorsPath[1] << ", " << rgbColorsPath[2] << endl;
+                        pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
                         selectedPaths.push_back(pPathsInTheSVG.at(i));
+                        itsAMatch = false;
                     }
 
                 }

@@ -54,34 +54,38 @@ int main (){
     colors.push_back(color1);
     colors.push_back(color2);
 
-    //selection->processOfSelection(svgPaths, colors, points);
+    // //selection->processOfSelection(svgPaths, colors, points);
 
-    vector<Path*> selectedPaths;
+    // vector<Path*> selectedPaths;
 
-    selectedPaths = selection->processOfSelection(svgPaths, colors, points);
+    // selectedPaths = selection->processOfSelection(svgPaths, colors, points);
 
     //---------------------------------
     cout << "-----------------------------------" << endl;
+    for(int i=0; i < points.size(); i++){
+        cout << "punto " << points.at(i)[0] << "," << points.at(i)[1] << endl;
+    }
     Selection* selection2 = new Selection();
     vector<Path*> selectedPaths2 = selection2->selecctionDivide(svgPaths, colors, points);
 
     //Selection* selection3 = new Selection();
     //vector<Path*> svgPathsE = pathDataProcessing2(selection3, colors, points);
 
-    cout << "Comprobacion" << endl;
+    // cout << "Comprobacion \n1---------------------------------------" << endl;
 
-    for (int i = 0; i < selectedPaths.size(); i++)
-    {
-        cout << "1- " << selectedPaths.at(i)->getIdentifier() << endl;
-        cout << "--" << selectedPaths.at(i)->getPositionInPath() << endl;
+    // for (int i = 0; i < selectedPaths.size(); i++)
+    // {
+    //     selectedPaths.at(i)->toString();
+        
 
-    }
+    // }
 
+    cout << "Comprobacion \n2---------------------------------------" << endl;
     for (int i = 0; i < selectedPaths2.size(); i++)
     {
-        //cout << selectedPaths2.size() << endl;
-        cout << "2- " << selectedPaths2.at(i)->getIdentifier() << endl;
-        cout << "--" << selectedPaths2.at(i)->getPositionInPath() << endl;
+        selectedPaths2.at(i)->toString();
+        cout << "---------------------------------------" << endl;
+
 
     }
 
@@ -95,7 +99,7 @@ int main (){
     int code = selection->getClassId();
 
     int* ClassId = &code;
-    selection->notify(ClassId, selectedPaths);
+    selection->notify(ClassId, selectedPaths2);
 
 
 

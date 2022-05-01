@@ -333,7 +333,7 @@ class Path{
         float maxQuadrantPoint[2];
         float minQuadrantPoint[2];
         //float coincidencePoint[2];
-        vector<PointInPath> coincidencePoints;
+        vector<float*> coincidencePoints;
 
     public:
 
@@ -421,11 +421,11 @@ class Path{
 
         }
 
-        void addCoincidencePoint(PointInPath coincidencePoint){
+        void addCoincidencePoint(float* coincidencePoint){
             coincidencePoints.push_back(coincidencePoint);
         }
 
-        vector<PointInPath> getCoincidencePoints(){
+        vector<float*> getCoincidencePoints(){
             return coincidencePoints;
         }
 
@@ -455,6 +455,11 @@ class Path{
                 cout << ")" << endl;
             }
             cout << "\nPosition: " << positionInPath << "\nStyle: " << pathStyle <<endl;
+            cout << "Coincidence Points: " ;
+            for(int indexOfCurrentCoincidencePoint = 0; indexOfCurrentCoincidencePoint < coincidencePoints.size(); indexOfCurrentCoincidencePoint++){
+                cout << "X: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[0] << " Y: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[1] << endl;
+               
+            }
         }
 
 
