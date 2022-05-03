@@ -141,167 +141,168 @@ class Selection : public Subject{
             if(itsACoordinateMatch){
                 pSelectedPaths.push_back(pCurrentPath);  
             }
+            
             return pSelectedPaths;
         }
 
-        //------------------------------------------------------------------------------------------------------------------------------
-        vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            vector<Path*> selectedPaths;
-            bool itsAMatch = false;
+        // //------------------------------------------------------------------------------------------------------------------------------
+        // vector<Path*> processOfSelection(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+        //     vector<Path*> selectedPaths;
+        //     bool itsAMatch = false;
 
-            float rgbColors[3] = {0,0,0};
-            float rgbColorsPath[3] = {0,0,0};
-            float rgbDifferences[3];
-            float rbgComparison;
+        //     float rgbColors[3] = {0,0,0};
+        //     float rgbColorsPath[3] = {0,0,0};
+        //     float rgbDifferences[3];
+        //     float rbgComparison;
 
-            char *colorTextRed;
-            char *colorTextGreen;
-            char *colorTextBlue;
+        //     char *colorTextRed;
+        //     char *colorTextGreen;
+        //     char *colorTextBlue;
 
-            char *colorTextPathRed;
-            char *colorTextPathGreen;
-            char *colorTextPathBlue;
+        //     char *colorTextPathRed;
+        //     char *colorTextPathGreen;
+        //     char *colorTextPathBlue;
 
-            for(int i =0; i < pPathsInTheSVG.size(); i++){
-                // cout << "Color: " << pPathsInTheSVG.at(i)->getPathColor() << endl;
-                itsAMatch = false;
+        //     for(int i =0; i < pPathsInTheSVG.size(); i++){
+        //         // cout << "Color: " << pPathsInTheSVG.at(i)->getPathColor() << endl;
+        //         itsAMatch = false;
 
-                for(int j = 0; j < pPointsToFind.size(); j++){
-                    // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
-                    if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
-                    && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
-                        cout << "Match " << pPathsInTheSVG.at(i)->getIdentifier() << endl;
-                        itsAMatch = true;
-                        if( pColorsToFind.size() == 0){
-                            selectedPaths.push_back(pPathsInTheSVG.at(i));
-                            pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
-                            itsAMatch = false;
-                        }
-                    }
-                }
+        //         for(int j = 0; j < pPointsToFind.size(); j++){
+        //             // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
+        //             if( (pPointsToFind.at(j)[0] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordX())\
+        //             && (pPointsToFind.at(j)[1] >= pPathsInTheSVG.at(i)->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= pPathsInTheSVG.at(i)->getMaxQuadrantCoordY())){
+        //                 cout << "Match " << pPathsInTheSVG.at(i)->getIdentifier() << endl;
+        //                 itsAMatch = true;
+        //                 if( pColorsToFind.size() == 0){
+        //                     selectedPaths.push_back(pPathsInTheSVG.at(i));
+        //                     pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
+        //                     itsAMatch = false;
+        //                 }
+        //             }
+        //         }
 
-                colorTextPathRed = pPathsInTheSVG.at(i)->getPathColor().substr(1,2).data();
-                colorTextPathGreen = pPathsInTheSVG.at(i)->getPathColor().substr(3,2).data();
-                colorTextPathBlue = pPathsInTheSVG.at(i)->getPathColor().substr(5,6).data();
+        //         colorTextPathRed = pPathsInTheSVG.at(i)->getPathColor().substr(1,2).data();
+        //         colorTextPathGreen = pPathsInTheSVG.at(i)->getPathColor().substr(3,2).data();
+        //         colorTextPathBlue = pPathsInTheSVG.at(i)->getPathColor().substr(5,6).data();
 
-                rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
-                rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
-                rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
-
-
-                for(int j = 0; j < pColorsToFind.size(); j++){
-
-                    //string prueba = "eb4034";
-
-                    colorTextRed = pColorsToFind.at(j).substr(1,2).data();
-                    colorTextGreen = pColorsToFind.at(j).substr(3,2).data();
-                    colorTextBlue = pColorsToFind.at(j).substr(5,6).data();
-                    rgbColors[0] = strtol(colorTextRed, NULL, 16);
-                    rgbColors[1] = strtol(colorTextGreen, NULL, 16);
-                    rgbColors[2] = strtol(colorTextBlue, NULL, 16);
-                    // cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
-
-                    rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
-                    rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
-                    rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
-
-                    // cout << "Suma: " << rgbDifferences[0] << endl;
-
-                    rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
-
-                    // cout << "La diferencia es de: " << rbgComparison << endl;
-
-                    if(rbgComparison <= 15 && itsAMatch){
-                        // cout << "son colores parecidos: " << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
-                        // cout << rgbColorsPath[0] << ", " << rgbColorsPath[1] << ", " << rgbColorsPath[2] << endl;
-                        pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
-                        selectedPaths.push_back(pPathsInTheSVG.at(i));
-                        itsAMatch = false;
-                    }
-
-                }
-            }
-
-            for(int i = 0; i < selectedPaths.size(); i++){
-                //cout << selectedPaths.at(i)->getIdentifier()<< endl;
-            }
-
-            //cout << "Contador: " << contador << endl;
-
-            cout << "============================================="  << endl;
-            return selectedPaths;
-        }
-
-        vector<Path*> processOfSelection_nlogn(Path* currentPath ,vector<Path*> selectedPaths, vector<string> pColorsToFind, vector<float*> pPointsToFind){
-            //vector<Path*> selectedPaths;
-            bool itsAMatch = false;
-            float rgbColors[3] = {0,0,0};
-            float rgbColorsPath[3] = {0,0,0};
-            float rgbDifferences[3];
-            float rbgComparison;
-
-            char *colorTextRed;
-            char *colorTextGreen;
-            char *colorTextBlue;
-
-            char *colorTextPathRed;
-            char *colorTextPathGreen;
-            char *colorTextPathBlue;
-
-            for(int j = 0; j < pPointsToFind.size(); j++){
-                // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
-                if( (pPointsToFind.at(j)[0] >= currentPath->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= currentPath->getMaxQuadrantCoordX())\
-                && (pPointsToFind.at(j)[1] >= currentPath->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= currentPath->getMaxQuadrantCoordY())){
-                    //cout << "Match" << endl;
-                    itsAMatch = true;
-                    if( pColorsToFind.size() == 0){
-                        selectedPaths.push_back(currentPath);
-                    }
-                }
-            }
-
-            colorTextPathRed = currentPath->getPathColor().substr(1,2).data();
-            colorTextPathGreen = currentPath->getPathColor().substr(3,2).data();
-            colorTextPathBlue = currentPath->getPathColor().substr(5,6).data();
-
-            rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
-            rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
-            rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
-
-            for(int j2 = 0; j2 < pColorsToFind.size(); j2++){
-
-                //string prueba = "eb4034";
-
-                colorTextRed = pColorsToFind.at(j2).substr(1,2).data();
-                colorTextGreen = pColorsToFind.at(j2).substr(3,2).data();
-                colorTextBlue = pColorsToFind.at(j2).substr(5,6).data();
-                rgbColors[0] = strtol(colorTextRed, NULL, 16);
-                rgbColors[1] = strtol(colorTextGreen, NULL, 16);
-                rgbColors[2] = strtol(colorTextBlue, NULL, 16);
-                //cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
-
-                rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
-                rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
-                rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
-
-                // cout << "Suma: " << rgbDifferences[0] << endl;
-
-                rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
-
-                // cout << "La diferencia es de: " << rbgComparison << endl;
-
-                if(rbgComparison <= 15 && itsAMatch){
-                    cout << "son colores parecidos" << endl;
-                    selectedPaths.push_back(currentPath);
-                }
-            }
-        return selectedPaths;
-        }
+        //         rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
+        //         rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
+        //         rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
 
 
-        void estoEsPrueba(){
-            cout << "HOLA"<< endl;
-        }
+        //         for(int j = 0; j < pColorsToFind.size(); j++){
+
+        //             //string prueba = "eb4034";
+
+        //             colorTextRed = pColorsToFind.at(j).substr(1,2).data();
+        //             colorTextGreen = pColorsToFind.at(j).substr(3,2).data();
+        //             colorTextBlue = pColorsToFind.at(j).substr(5,6).data();
+        //             rgbColors[0] = strtol(colorTextRed, NULL, 16);
+        //             rgbColors[1] = strtol(colorTextGreen, NULL, 16);
+        //             rgbColors[2] = strtol(colorTextBlue, NULL, 16);
+        //             // cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+
+        //             rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
+        //             rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
+        //             rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
+
+        //             // cout << "Suma: " << rgbDifferences[0] << endl;
+
+        //             rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
+
+        //             // cout << "La diferencia es de: " << rbgComparison << endl;
+
+        //             if(rbgComparison <= 15 && itsAMatch){
+        //                 // cout << "son colores parecidos: " << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+        //                 // cout << rgbColorsPath[0] << ", " << rgbColorsPath[1] << ", " << rgbColorsPath[2] << endl;
+        //                 pPathsInTheSVG.at(i)->addCoincidencePoint(pPointsToFind.at(j));
+        //                 selectedPaths.push_back(pPathsInTheSVG.at(i));
+        //                 itsAMatch = false;
+        //             }
+
+        //         }
+        //     }
+
+        //     for(int i = 0; i < selectedPaths.size(); i++){
+        //         //cout << selectedPaths.at(i)->getIdentifier()<< endl;
+        //     }
+
+        //     //cout << "Contador: " << contador << endl;
+
+        //     cout << "============================================="  << endl;
+        //     return selectedPaths;
+        // }
+
+        // vector<Path*> processOfSelection_nlogn(Path* currentPath ,vector<Path*> selectedPaths, vector<string> pColorsToFind, vector<float*> pPointsToFind){
+        //     //vector<Path*> selectedPaths;
+        //     bool itsAMatch = false;
+        //     float rgbColors[3] = {0,0,0};
+        //     float rgbColorsPath[3] = {0,0,0};
+        //     float rgbDifferences[3];
+        //     float rbgComparison;
+
+        //     char *colorTextRed;
+        //     char *colorTextGreen;
+        //     char *colorTextBlue;
+
+        //     char *colorTextPathRed;
+        //     char *colorTextPathGreen;
+        //     char *colorTextPathBlue;
+
+        //     for(int j = 0; j < pPointsToFind.size(); j++){
+        //         // cout << "Point = " << pPointsToFind.at(j)[0] << ", " << pPointsToFind.at(j)[1] << endl;
+        //         if( (pPointsToFind.at(j)[0] >= currentPath->getMinQuadrantCoordX()) &&  (pPointsToFind.at(j)[0] <= currentPath->getMaxQuadrantCoordX())\
+        //         && (pPointsToFind.at(j)[1] >= currentPath->getMinQuadrantCoordY()) && (pPointsToFind.at(j)[1] <= currentPath->getMaxQuadrantCoordY())){
+        //             //cout << "Match" << endl;
+        //             itsAMatch = true;
+        //             if( pColorsToFind.size() == 0){
+        //                 selectedPaths.push_back(currentPath);
+        //             }
+        //         }
+        //     }
+
+        //     colorTextPathRed = currentPath->getPathColor().substr(1,2).data();
+        //     colorTextPathGreen = currentPath->getPathColor().substr(3,2).data();
+        //     colorTextPathBlue = currentPath->getPathColor().substr(5,6).data();
+
+        //     rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
+        //     rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
+        //     rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
+
+        //     for(int j2 = 0; j2 < pColorsToFind.size(); j2++){
+
+        //         //string prueba = "eb4034";
+
+        //         colorTextRed = pColorsToFind.at(j2).substr(1,2).data();
+        //         colorTextGreen = pColorsToFind.at(j2).substr(3,2).data();
+        //         colorTextBlue = pColorsToFind.at(j2).substr(5,6).data();
+        //         rgbColors[0] = strtol(colorTextRed, NULL, 16);
+        //         rgbColors[1] = strtol(colorTextGreen, NULL, 16);
+        //         rgbColors[2] = strtol(colorTextBlue, NULL, 16);
+        //         //cout << rgbColors[0] << ", " << rgbColors[1] << ", " << rgbColors[2] << endl;
+
+        //         rgbDifferences[0] = abs((rgbColorsPath[0] - rgbColors[0]))/255 ;
+        //         rgbDifferences[1] = abs((rgbColorsPath[1] - rgbColors[1]))/255 ;
+        //         rgbDifferences[2] = abs((rgbColorsPath[2] - rgbColors[2]))/255 ;
+
+        //         // cout << "Suma: " << rgbDifferences[0] << endl;
+
+        //         rbgComparison = ((rgbDifferences[0] + rgbDifferences[1] + rgbDifferences[2])/3)*100;
+
+        //         // cout << "La diferencia es de: " << rbgComparison << endl;
+
+        //         if(rbgComparison <= 15 && itsAMatch){
+        //             cout << "son colores parecidos" << endl;
+        //             selectedPaths.push_back(currentPath);
+        //         }
+        //     }
+        // return selectedPaths;
+        // }
+
+
+        // void estoEsPrueba(){
+        //     cout << "HOLA"<< endl;
+        // }
 
 };
 

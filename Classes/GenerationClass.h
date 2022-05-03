@@ -21,6 +21,8 @@
 using namespace std;
 using namespace rapidxml; //Namespace de la librería
 
+
+
 class Generation {
     private:
         //Paths selecionados
@@ -97,13 +99,13 @@ class Generation {
 
         void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY){
             cout << "1" << endl;
-            file<> file("recyclingsymbol2.svg"); // Lee y carga el archivo en memoria
+            file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
             cout << "2" << endl;
             xml_document<> myDoc; //Ra�z del �rbol DOM
-            myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
+            myDoc.parse<0>(fileSVG.data()); //Parsea el XML en un DOM
 
             //Recorrer elementos y atributos
-            extractXMLData(&myDoc);
+            //extractXMLData2(&myDoc);
 
             xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
             myDoc.first_node()->append_node(newNode); //Elemento <path>
@@ -115,7 +117,7 @@ class Generation {
             newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
             //producer of new paths
 
-            ofstream copyFile("sample3.svg"); //Nuevo archivo
+            ofstream copyFile("sa3.svg"); //Nuevo archivo
             stringstream ss;
             ss << *myDoc.first_node(); //Pasa el nodo ra�z a ss
             string stringXML = ss.str(); //ss.toString
@@ -123,9 +125,9 @@ class Generation {
             copyFile.close(); //Escribe y cierra
 
             //Document to String
-            string strXML;
-            print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
-            cout << strXML << endl;
+           // string strXML;
+            //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
+            //cout << strXML << endl;
 
         }
 

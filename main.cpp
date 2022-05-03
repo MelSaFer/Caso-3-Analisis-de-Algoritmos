@@ -11,10 +11,11 @@ Students:
 #include <stdlib.h>
 #include <iostream>
 #include "DataProcessing.h"
-#include "DataProcessingCopy.h"
+//#include "DataProcessingCopy.h"
 #include "Classes/SelectionClass.h"
 #include "Classes/Plataform.h"
 #include "Classes/GenerationClass.h"
+#include "Classes/RoutingClass.h"
 
 
 
@@ -31,9 +32,9 @@ int main (){
 
     vector<Path*> svgPaths = pathDataProcessing();
 
-    Selection* selection = new Selection();
-    selection->attach(ambiente);
-    cout << "\n\n\n\n" << endl;
+    //Selection* selection = new Selection();
+    //selection->attach(ambiente);
+    //cout << "\n\n\n\n" << endl;
 
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
@@ -96,10 +97,12 @@ int main (){
     // }
 
 
-    int code = selection->getClassId();
+    int code = selection2->getClassId();
 
     int* ClassId = &code;
-    selection->notify(ClassId, selectedPaths2);
+    selection2->notify(ClassId, selectedPaths2);
+
+    Routing* rou = new Routing();
 
 
 
@@ -107,9 +110,10 @@ int main (){
    cout << "call" << endl;
    gen->generateNewPath(selectedPaths2);
 
-    delete selection;
+    //delete selection;
     delete selection2;
     delete gen;
+    delete rou;
     return 0;
 
 
