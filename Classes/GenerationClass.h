@@ -63,16 +63,16 @@ class Generation {
             -Memorization: We use the previus path to improve the current path
         */
 
-        void generateNewPath(vector<Path*> pSelectedAndModifiedPaths){
+        void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> file){
             Path* previusPath = new Path();
             for(int currentPathIndex  = 0; currentPathIndex < pSelectedAndModifiedPaths.size(); currentPathIndex++){
                 //Path* previusPath=
-                this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath);
+                this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath, file);
             }
 
         }
 
-        void stages(Path* pCurrentPath, Path* pPreviusPath){
+        void stages(Path* pCurrentPath, Path* pPreviusPath, file<> file){
             int sizeCoincidendePath = pCurrentPath->getCoincidencePoints().size();
 
             float newMaxX;
@@ -91,18 +91,18 @@ class Generation {
                 newMinY = currentCpoincidencePoint[1]+10.0;
 
                 cout << newMaxX<<endl;
-                this->newSVGGenerator(newMaxX, newMinX, newMaxY, newMinY);
+                this->newSVGGenerator(newMaxX, newMinX, newMaxY, newMinY, file);
 
             }
             //return pCurrentPath;
         }
 
-        void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY){
-            cout << "1" << endl;
-            file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
-            cout << "2" << endl;
+        void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY, file<> file){
+            //cout << "1" << endl;
+            //file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
+            //cout << "2" << endl;
             xml_document<> myDoc; //Ra�z del �rbol DOM
-            myDoc.parse<0>(fileSVG.data()); //Parsea el XML en un DOM
+            myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
 
             //Recorrer elementos y atributos
             //extractXMLData2(&myDoc);

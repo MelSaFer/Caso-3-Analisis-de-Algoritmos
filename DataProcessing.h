@@ -2,6 +2,7 @@
 #define DATAPROCESSING
 
 #include <iostream>
+#include <stdlib.h>
 #include "rapidxml/rapidxml_ext.hpp" //Class 
 #include "rapidxml/rapidxml_utils.hpp" //Class File
 #include <sstream>
@@ -50,17 +51,10 @@ void extractXMLData(xml_document<>* doc){
                         svgHeight = actualNumber;
                     }
                 } 
-
-
             }
-
-            //cout << "Ancho: " << svgWidth << ", Alto: " << svgHeight << endl;
-            //cout << "String: " << viewBoxString << endl;
             cout << attrib->name() << endl;
             cout << attrib->value() << endl;
         }
-        // cout << " Atributo: " << attrib->name() << endl;
-        // cout << "\tValor: " << attrib->value() << endl;
     }
     extractNodeData(node);   //calls the funtion for extract the info of the node
     
@@ -72,10 +66,7 @@ Input: a node of the document(tree with information of the document)
 Return: None
 */
 void extractNodeData(xml_node<>* node){
-    //cout << "Etiqueta: " << node->name() << endl;
-
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
-        cout << "Cargando..." << endl;
         if (node->type() == node_element ){
             //verifies if the node is a path
             if(node->name() == (string)"path"){
@@ -112,20 +103,13 @@ void extractNodeData(xml_node<>* node){
 
 //___________________________________________________________________________________________________________________________
 
-vector<Path*> pathDataProcessing(){
-    file<> file("Svg/recyclingsymbol.svg"); // read the file
+vector<Path*> pathDataProcessing( file<> file){
+    //file<> file("Svg/recyclingsymbol.svg"); // read the file
   	xml_document<> myDoc; //root of the tree
-  	myDoc.parse<0>(file.data()); //Parse the XML into a DOM???
+  	myDoc.parse<0>(file.data()); //Parse the XML into a DOM
 
-      //Recorrer elementos y atributos
+    //Extract the informatito form the svg
 	extractXMLData(&myDoc);
-    //Verification-------------------
-	// cout<< "\nPaths: "<< endl;
-    // for(int i = 0; i < svgPaths.size(); i++){
-    //     cout<<"======================"<< endl;
-    //     svgPaths[i]->toString();
-    //     cout<<"\n";
-    // }
     return svgPaths; 
 }
 #endif

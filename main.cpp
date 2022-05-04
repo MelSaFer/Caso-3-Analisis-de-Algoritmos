@@ -28,9 +28,11 @@ using namespace std;
 //Funtion main
 int main (){
 
+    file<> file("Svg/recyclingsymbol.svg");
+
     Plataform* ambiente = new Plataform();
 
-    vector<Path*> svgPaths = pathDataProcessing();
+    vector<Path*> svgPaths = pathDataProcessing(file);
 
     //Selection* selection = new Selection();
     //selection->attach(ambiente);
@@ -62,45 +64,26 @@ int main (){
     // selectedPaths = selection->processOfSelection(svgPaths, colors, points);
 
     //---------------------------------
-    cout << "-----------------------------------" << endl;
-    for(int i=0; i < points.size(); i++){
-        cout << "punto " << points.at(i)[0] << "," << points.at(i)[1] << endl;
-    }
-    Selection* selection2 = new Selection();
-    vector<Path*> selectedPaths2 = selection2->selecctionDivide(svgPaths, colors, points);
+    
+    Selection* selection = new Selection();
+    selection->attach(ambiente);
+    vector<Path*> selectedPaths = selection->selecctionDivide(svgPaths, colors, points);
 
-    //Selection* selection3 = new Selection();
-    //vector<Path*> svgPathsE = pathDataProcessing2(selection3, colors, points);
-
-    // cout << "Comprobacion \n1---------------------------------------" << endl;
-
-    // for (int i = 0; i < selectedPaths.size(); i++)
-    // {
-    //     selectedPaths.at(i)->toString();
-
-
-    // }
 
     cout << "Comprobacion \n2---------------------------------------" << endl;
-    for (int i = 0; i < selectedPaths2.size(); i++)
+    for (int i = 0; i < selectedPaths.size(); i++)
     {
-        selectedPaths2.at(i)->toString();
+        selectedPaths.at(i)->toString();
         cout << "---------------------------------------" << endl;
 
 
     }
 
-    // for (int i = 0; i < svgPathsE.size(); i++)
-    // {
-    //     //cout << "3- " << svgPathsE.at(i)->getIdentifier() << endl;
-
-    // }
 
 
-    int code = selection2->getClassId();
-
+    int code = selection->getClassId();
     int* ClassId = &code;
-    selection2->notify(ClassId, selectedPaths2);
+    selection->notify(ClassId, selectedPaths);
 
     Routing* rou = new Routing();
 
@@ -108,10 +91,10 @@ int main (){
 
    Generation* gen = new Generation();
    cout << "call" << endl;
-   gen->generateNewPath(selectedPaths2);
+   gen->generateNewPath(selectedPaths, file);
 
     //delete selection;
-    delete selection2;
+    delete selection;
     delete gen;
     delete rou;
     return 0;
