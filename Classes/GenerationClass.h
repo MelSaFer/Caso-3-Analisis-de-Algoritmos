@@ -13,6 +13,7 @@
 #include "Path.h"
 #include <sstream>
 #include <fstream>
+#include <cstring>
 //#include "ProducerConsumer.h"
 #include "ObserverPattern.h"
 #include "rapidxml/rapidxml_ext.hpp" //Class
@@ -63,16 +64,16 @@ class Generation {
             -Memorization: We use the previus path to improve the current path
         */
 
-        void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> file){
+        void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> pFile, string name, int pFrames){
             Path* previusPath = new Path();
             for(int currentPathIndex  = 0; currentPathIndex < pSelectedAndModifiedPaths.size(); currentPathIndex++){
                 //Path* previusPath=
-                this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath, file);
+                this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath, pFile, name, pFrames);
             }
 
         }
 
-        void stages(Path* pCurrentPath, Path* pPreviusPath, file<> file){
+        void stages(Path* pCurrentPath, Path* pPreviusPath, file<> pFile, string name, int pFrames){
             int sizeCoincidendePath = pCurrentPath->getCoincidencePoints().size();
 
             float newMaxX;
@@ -88,21 +89,21 @@ class Generation {
                 newMinX = currentCpoincidencePoint[0]-10.0;
 
                 newMaxY = currentCpoincidencePoint[1]+10.0;
-                newMinY = currentCpoincidencePoint[1]+10.0;
+                newMinY = currentCpoincidencePoint[1]-10.0;
 
                 cout << newMaxX<<endl;
-                this->newSVGGenerator(newMaxX, newMinX, newMaxY, newMinY, file);
+                this->newSVGGenerator(newMaxX, newMinX, newMaxY, newMinY, pFile, name, pFrames);
 
             }
             //return pCurrentPath;
         }
 
-        void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY, file<> file){
+        void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY, file<> pFile, string name, int pFrames){
             //cout << "1" << endl;
             //file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
             //cout << "2" << endl;
             xml_document<> myDoc; //Ra�z del �rbol DOM
-            myDoc.parse<0>(file.data()); //Parsea el XML en un DOM
+            myDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM
 
             //Recorrer elementos y atributos
             //extractXMLData2(&myDoc);
@@ -110,14 +111,40 @@ class Generation {
             xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
             myDoc.first_node()->append_node(newNode); //Elemento <path>
 
-            xml_attribute<> *newAttr = myDoc.allocate_attribute("d", "M 0 0 L 0 15 L 20 15 L 20 20 Z");
+            string letterOfSVGPoint = "M";
+            string space = " ";
+
+            string newPoints = letterOfSVGPoint + space + to_string(pNewMinX) + space + to_string(pNewMinY) + space + \
+                to_string(pNewMaxX) + space + to_string(pNewMinY) + space + to_string(pNewMaxX) + space + \
+                to_string(pNewMaxY) + space + to_string(pNewMinX) + space + to_string(pNewMaxY)+ " Z";
+
+            
+            char newPointsInPath[100];
+            strcpy(newPointsInPath,newPoints.c_str());
+            cout << newPointsInPath;
+
+            cout << newPoints <<endl;
+
+            xml_attribute<> *newAttr = myDoc.allocate_attribute("d", newPointsInPath);
             newNode->append_attribute(newAttr); //Atributo "d" para <path>
 
-            xml_attribute<> *newAttr2 = myDoc.allocate_attribute("fill", "green");
+            xml_attribute<> *newAttr2 = myDoc.allocate_attribute("fill", "blue");
             newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
             //producer of new paths
 
-            ofstream copyFile("sa3.svg"); //Nuevo archivo
+
+            string newFileName = name + to_string(pFrames)  + ".svg";
+           
+
+            
+            char newFileNameCopy[100];
+            strcpy(newFileNameCopy,newFileName.c_str());
+            cout << newFileNameCopy;
+
+            // cout << newPoints <<endl;
+
+
+            ofstream copyFile(newFileNameCopy); //Nuevo archivo
             stringstream ss;
             ss << *myDoc.first_node(); //Pasa el nodo ra�z a ss
             string stringXML = ss.str(); //ss.toString

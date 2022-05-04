@@ -28,40 +28,42 @@ using namespace std;
 //Funtion main
 int main (){
 
-    file<> file("Svg/recyclingsymbol.svg");
-
-    Plataform* ambiente = new Plataform();
-
-    vector<Path*> svgPaths = pathDataProcessing(file);
-
-    //Selection* selection = new Selection();
-    //selection->attach(ambiente);
-    //cout << "\n\n\n\n" << endl;
-
+//DATA-----------------------------------------------------------------------------------------------------
+    //File 
+    char fileName[] = "Svg/recyclingsymbol.svg";
+    //Point to find
+    vector<float*> points;
+    
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
     float p2[2] = {300.848, 274.711};
     float p3[2] = {200.848, 474.711};
     float p4[2] = {50.848, 454.711};
-    vector<float*> points;
+    
     points.push_back(p1);
     points.push_back(p2);
     points.push_back(p3);
     points.push_back(p4);
     points.push_back(p5);
 
-
+    //Color to find
     vector<string> colors;
     string color1 = "#bf7f24";
     string color2 = "#1133FF";
     colors.push_back(color1);
     colors.push_back(color2);
 
-    // //selection->processOfSelection(svgPaths, colors, points);
+    //Frames
+    int frames = 10;
 
-    // vector<Path*> selectedPaths;
+    //Open file
+    file<> file(fileName);
 
-    // selectedPaths = selection->processOfSelection(svgPaths, colors, points);
+//------------------------------------------------------------------------------------------
+    Plataform* ambiente = new Plataform();
+
+    vector<Path*> svgPaths = pathDataProcessing(file);
+
 
     //---------------------------------
     
@@ -75,11 +77,7 @@ int main (){
     {
         selectedPaths.at(i)->toString();
         cout << "---------------------------------------" << endl;
-
-
     }
-
-
 
     int code = selection->getClassId();
     int* ClassId = &code;
@@ -91,7 +89,7 @@ int main (){
 
    Generation* gen = new Generation();
    cout << "call" << endl;
-   gen->generateNewPath(selectedPaths, file);
+   gen->generateNewPath(selectedPaths, file, "recyclingsymbol", frames);
 
     //delete selection;
     delete selection;
