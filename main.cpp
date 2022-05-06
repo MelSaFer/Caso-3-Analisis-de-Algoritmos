@@ -14,7 +14,7 @@ Students:
 //#include "DataProcessingCopy.h"
 #include "Classes/SelectionClass.h"
 #include "Classes/Plataform.h"
-#include "Classes/GenerationClass.h"
+// #include "Classes/GenerationClass.h"
 #include "Classes/RoutingClass.h"
 
 
@@ -34,6 +34,15 @@ int main (){
     //Point to find
     vector<float*> points;
     
+    //file<> file("Svg/recyclingsymbol.svg");
+
+    //Plataform* ambiente = new Plataform();
+
+    //vector<Path*> svgPaths = pathDataProcessing(file);
+
+
+    float radians = 4.71239;
+
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
     float p2[2] = {300.848, 274.711};
@@ -54,7 +63,7 @@ int main (){
     colors.push_back(color2);
 
     //Frames
-    int frames = 10;
+    int frames = 5;
 
     //Open file
     file<> file(fileName);
@@ -83,17 +92,20 @@ int main (){
     int* ClassId = &code;
     selection->notify(ClassId, selectedPaths);
 
+    cout << "---------------------------------------" << endl;
+    cout << "---------------------------------------" << endl;
     Routing* rou = new Routing();
+    selectedPaths = rou->routingPreProcess(radians, selectedPaths, 628.254, 613.516, frames);
 
 
 
-   Generation* gen = new Generation();
-   cout << "call" << endl;
-   //gen->generateNewPath(selectedPaths, file, "recyclingsymbol", frames);
+//    Generation* gen = new Generation();
+//    cout << "call" << endl;
+//    gen->generateNewPath(selectedPaths, file);
 
     //delete selection;
     delete selection;
-    delete gen;
+    // delete gen;
     delete rou;
     return 0;
 

@@ -18,6 +18,7 @@ struct PointInPath{
     float xCoordinate;
     float yCoordinate;
     string svgCommand;
+    vector <float*> offsetPoints;
     //int positionInCommand; //Use in figures with more than 1 point of reference (like curves)
     //bool isCoordinate;
     //Creo que aqui deberia haber una lista de movimientos de este punto, no en el path en si como lo tenemos
@@ -300,7 +301,8 @@ class Path{
         int positionInPath;
         float maxQuadrantPoint[2];
         float minQuadrantPoint[2];
-        vector<float*> coincidencePoints;
+        // vector<float*> coincidencePoints;
+        vector<PointInPath> coincidencePoints;
 
     public:
 
@@ -384,16 +386,42 @@ class Path{
             minQuadrantPoint[1] = minYCoord;
         }
 
-        void addCoincidencePoint(float* coincidencePoint){
-            coincidencePoints.push_back(coincidencePoint);
+        // void addCoincidencePoint(float* coincidencePoint){
+        //     coincidencePoints.push_back(coincidencePoint);
+        // }
+
+        // vector<float*> getCoincidencePoints(){
+        //     return coincidencePoints;
+        // }
+
+        // float* getCoincidencePoints(int pIndexOfCoincidencePoint){
+        //     return coincidencePoints.at(pIndexOfCoincidencePoint);
+        // }
+
+        void addCoincidencePoint(PointInPath pCoincidencePoint) {
+            coincidencePoints.push_back(pCoincidencePoint);
         }
 
-        vector<float*> getCoincidencePoints(){
+        vector<PointInPath> getCoincidencePoints() {
             return coincidencePoints;
         }
 
-        float* getCoincidencePoints(int pIndexOfCoincidencePoint){
-            return coincidencePoints.at(pIndexOfCoincidencePoint);
+        PointInPath getCoincidencePoints(int pIndexOfPoint) {
+            return coincidencePoints.at(pIndexOfPoint);
+        }
+
+        void modifyPointInPath(PointInPath pCoincidencePoint, int pPointPosition){
+            coincidencePoints.at(pPointPosition) = pCoincidencePoint;
+        }
+
+        void addOffsetPoint(int pIndexOfPoint, float pCoordenateX, float pCoordenateY){
+            float newOffsetPoint[2];
+
+            newOffsetPoint[0] = pCoordenateX;
+            newOffsetPoint[1] = pCoordenateY;
+
+            coincidencePoints.at(pIndexOfPoint).offsetPoints.push_back(newOffsetPoint);
+            cout << "se agrego nuevo offset" << endl;
         }
 
         float getMaxQuadrantCoordX(){
@@ -423,7 +451,8 @@ class Path{
             cout << "\nPosition: " << positionInPath << "\nStyle: " << pathStyle <<endl;
             cout << "Coincidence Points: " ;
             for(int indexOfCurrentCoincidencePoint = 0; indexOfCurrentCoincidencePoint < coincidencePoints.size(); indexOfCurrentCoincidencePoint++){
-                cout << "X: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[0] << " Y: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[1] << endl;
+                // cout << "X: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[0] << " Y: " << coincidencePoints.at(indexOfCurrentCoincidencePoint)[1] << endl;
+                cout << "X: " << coincidencePoints.at(indexOfCurrentCoincidencePoint).xCoordinate << " Y: " << coincidencePoints.at(indexOfCurrentCoincidencePoint).yCoordinate << endl;
 
             }
         }
