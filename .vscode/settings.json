@@ -3,6 +3,9 @@
         "list": "cpp",
         "iostream": "cpp",
         "vector": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "xlocale": "cpp",
+        "xlocmon": "cpp",
+        "string": "cpp"
     }
 }

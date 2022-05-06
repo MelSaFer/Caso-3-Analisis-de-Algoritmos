@@ -89,7 +89,7 @@ int main (){
 
    Generation* gen = new Generation();
    cout << "call" << endl;
-   gen->generateNewPath(selectedPaths, file, "recyclingsymbol", frames);
+   //gen->generateNewPath(selectedPaths, file, "recyclingsymbol", frames);
 
     //delete selection;
     delete selection;

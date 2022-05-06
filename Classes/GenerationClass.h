@@ -14,6 +14,7 @@
 #include <sstream>
 #include <fstream>
 #include <cstring>
+//#include <direct.h>
 //#include "ProducerConsumer.h"
 #include "ObserverPattern.h"
 #include "rapidxml/rapidxml_ext.hpp" //Class
@@ -64,100 +65,214 @@ class Generation {
             -Memorization: We use the previus path to improve the current path
         */
 
-        void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> pFile, string name, int pFrames){
-            Path* previusPath = new Path();
-            for(int currentPathIndex  = 0; currentPathIndex < pSelectedAndModifiedPaths.size(); currentPathIndex++){
-                //Path* previusPath=
-                this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath, pFile, name, pFrames);
-            }
+        // void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> pFile, string name, int pFrames){
+        //     Path* previusPath = new Path();
+        //     //xml_document<> myDoc; //Ra�z del �rbol DOM
+        //     //myDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM
+            
+        //     for(int currentPathIndex  = 0; currentPathIndex < pSelectedAndModifiedPaths.size(); currentPathIndex++){
+        //         this->stages(pSelectedAndModifiedPaths.at(currentPathIndex), previusPath, pFile, name, pFrames);
+        //     }
 
-        }
+        // }
 
-        void stages(Path* pCurrentPath, Path* pPreviusPath, file<> pFile, string name, int pFrames){
-            int sizeCoincidendePath = pCurrentPath->getCoincidencePoints().size();
+        // void stages(Path* pCurrentPath, Path* pPreviusPath, file<> pFile, string name, int pFrames){
 
-            float newMaxX;
-            float newMinX;
-            float newMaxY;
-            float newMinY;
+        //     xml_document<> myDoc; //Ra�z del �rbol DOM
+        //     myDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM
 
-            for( int currentCoincidence = 0; currentCoincidence < sizeCoincidendePath; currentCoincidence++){
-                //busca paths y hace las modificaciones, luego lo manda al productor
-                float* currentCpoincidencePoint=  pCurrentPath->getCoincidencePoints(currentCoincidence);
+        //     int sizeCoincidendePath = pCurrentPath->getCoincidencePoints().size();
 
-                newMaxX = currentCpoincidencePoint[0]+10.0;
-                newMinX = currentCpoincidencePoint[0]-10.0;
+        //     float newMaxX;
+        //     float newMinX;
+        //     float newMaxY;
+        //     float newMinY;
+        //     //xml_node<> *newNode;
+        //     string letterOfSVGPoint = "M";
+        //     string space = " ";
+        //     string newPoints;
+        //     char newPointsInPath[100];
+        //     float* currentCpoincidencePoint; 
+            
+        //     //xml_attribute<> *newAttr;
+        //     //xml_attribute<> *newAttr2;
+        //     //xml_attribute<> *newAttr;
 
-                newMaxY = currentCpoincidencePoint[1]+10.0;
-                newMinY = currentCpoincidencePoint[1]-10.0;
+        //     for( int currentCoincidence = 0; currentCoincidence < sizeCoincidendePath; currentCoincidence++){
+                
+        //         currentCpoincidencePoint=  pCurrentPath->getCoincidencePoints(currentCoincidence);
 
-                cout << newMaxX<<endl;
-                this->newSVGGenerator(newMaxX, newMinX, newMaxY, newMinY, pFile, name, pFrames);
+        //         newMaxX = currentCpoincidencePoint[0]+10.0;
+        //         newMinX = currentCpoincidencePoint[0]-10.0;
 
-            }
-            //return pCurrentPath;
-        }
+        //         newMaxY = currentCpoincidencePoint[1]+10.0;
+        //         newMinY = currentCpoincidencePoint[1]-10.0;
 
-        void newSVGGenerator(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY, file<> pFile, string name, int pFrames){
-            //cout << "1" << endl;
-            //file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
-            //cout << "2" << endl;
-            xml_document<> myDoc; //Ra�z del �rbol DOM
-            myDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM
+        //         //cout << newMaxX<<endl;
 
-            //Recorrer elementos y atributos
-            //extractXMLData2(&myDoc);
+        //         //free(newNode);
+        //         newPoints = letterOfSVGPoint + space + to_string(newMinX) + space + to_string(newMinY) + space + \
+        //             to_string(newMaxX) + space + to_string(newMinY) + space + to_string(newMaxX) + space + \
+        //             to_string(newMaxY) + space + to_string(newMinX) + space + to_string(newMaxY)+ " Z";
+                
+                
+        //         strcpy(newPointsInPath,newPoints.c_str());
+            
+        //         xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
+        //         myDoc.first_node()->append_node(newNode); //Elemento <path>
 
-            xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
-            myDoc.first_node()->append_node(newNode); //Elemento <path>
+        //         const char *NewD = newPointsInPath;
+        //         //cout << "1-> " << NewD << endl;
+        //         xml_attribute<> *newAttr = myDoc.allocate_attribute("d", newPointsInPath);
+        //         newNode->append_attribute(newAttr); //Atributo "d" para <path>
 
-            string letterOfSVGPoint = "M";
-            string space = " ";
+        //         cout << "2-> " << NewD << endl;              
+        //         cout << "2" <<endl;
+           
+        //         cout << "1" <<endl;
+        //         xml_attribute<> *newAttr2;
+        //         if(currentCoincidence == 0 ){
+        //             newAttr2 = myDoc.allocate_attribute("fill", "green");
+        //             cout << "Agrego: " << newPointsInPath <<endl;
+                
+        //         }else{
+        //             newAttr2 = myDoc.allocate_attribute("fill", "blue");
+        //             cout << "Agrego: " << newPointsInPath <<endl;                
+        //         }
+        //         newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
+        //         //newNode->append_attribute(newAttr); //Atributo "d" para <path>
 
-            string newPoints = letterOfSVGPoint + space + to_string(pNewMinX) + space + to_string(pNewMinY) + space + \
-                to_string(pNewMaxX) + space + to_string(pNewMinY) + space + to_string(pNewMaxX) + space + \
-                to_string(pNewMaxY) + space + to_string(pNewMinX) + space + to_string(pNewMaxY)+ " Z";
+                
+        //         newNode = NULL;
+        //         newAttr = NULL;
+        //         cout << "3" <<endl;
+
+                
+        //         //delete(newAttr);
+               
+
+        //     }
+        //     this->newSVGGenerator(pFile, name, pFrames, &myDoc);
+        //     //return pCurrentPath;
+        // }
+
+        // file<> generateNewPath(file<> pFile, char* pNewD, char* pNewColor){
+
+        //     xml_document<> pNewDoc; //Ra�z del �rbol DOM
+        //     pNewDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM 
+
+        //     xml_node<> *newNode = pNewDoc.allocate_node(node_element, "path");
+        //     pNewDoc.first_node()->append_node(newNode); //Elemento <path>
+
+        //     //cout << "1-> " << NewD << endl;
+        //     xml_attribute<> *newAttr = pNewDoc.allocate_attribute("d", pNewD);
+        //     newNode->append_attribute(newAttr); //Atributo "d" para <path>
+
+        //     cout << "2-> " << pNewD << endl;              
+        //     cout << "2" <<endl;
+        
+        //     cout << "1" <<endl;
+        //     xml_attribute<> *newAttr2;
+        //     newAttr2 = pNewDoc.allocate_attribute("fill", pNewColor);
+        //     cout << "Agrego: " << pNewD <<endl;
+                        
+        //     newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
+        //     //newNode->append_attribute(newAttr); //Atributo "d" para <path>
+        //     cout << "3" <<endl;
+
+        //     return pFile;
+
+        // }
+
+        // void newSVGGenerator(file<> pFile, string name, int pFrames, xml_document<> *myDoc){
+        //     cout << "5" <<endl;
+        //     string newFileName = "Results/p" + name + to_string(pFrames)  + ".svg";
+
+        //     char newFileNameCopy[100];
+        //     strcpy(newFileNameCopy,newFileName.c_str());
+        //     cout << newFileNameCopy;
+
+        //     ofstream copyFile(newFileNameCopy); //Nuevo archivo
+        //     stringstream ss;
+        //     ss << *myDoc->first_node(); //Pasa el nodo ra�z a ss
+        //     string stringXML = ss.str(); //ss.toString
+        //     copyFile << stringXML;
+        //     copyFile.close(); //Escribe y cierra
+
+        // }
+
+        // void newSVGGenerator2(float pNewMaxX, float pNewMinX, float pNewMaxY, float pNewMinY, file<> pFile, string name, int pFrames){
+        //     //cout << "1" << endl;
+        //     //file<> fileSVG("Svg/man.svg"); // Lee y carga el archivo en memoria
+        //     //cout << "2" << endl;
+        //     xml_document<> myDoc; //Ra�z del �rbol DOM
+        //     myDoc.parse<0>(pFile.data()); //Parsea el XML en un DOM
+
+        //     //Recorrer elementos y atributos
+        //     //extractXMLData2(&myDoc);
+
+        //     xml_node<> *newNode = myDoc.allocate_node(node_element, "path");
+        //     myDoc.first_node()->append_node(newNode); //Elemento <path>
+
+        //     string letterOfSVGPoint = "M";
+        //     string space = " ";
+
+        //     string newPoints = letterOfSVGPoint + space + to_string(pNewMinX) + space + to_string(pNewMinY) + space + \
+        //         to_string(pNewMaxX) + space + to_string(pNewMinY) + space + to_string(pNewMaxX) + space + \
+        //         to_string(pNewMaxY) + space + to_string(pNewMinX) + space + to_string(pNewMaxY)+ " Z";
 
             
-            char newPointsInPath[100];
-            strcpy(newPointsInPath,newPoints.c_str());
-            cout << newPointsInPath;
+        //     char newPointsInPath[100];
+        //     strcpy(newPointsInPath,newPoints.c_str());
+        //     cout << newPointsInPath;
 
-            cout << newPoints <<endl;
+        //     cout << newPoints <<endl;
 
-            xml_attribute<> *newAttr = myDoc.allocate_attribute("d", newPointsInPath);
-            newNode->append_attribute(newAttr); //Atributo "d" para <path>
+        //     xml_attribute<> *newAttr = myDoc.allocate_attribute("d", newPointsInPath);
+        //     newNode->append_attribute(newAttr); //Atributo "d" para <path>
 
-            xml_attribute<> *newAttr2 = myDoc.allocate_attribute("fill", "blue");
-            newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
-            //producer of new paths
+        //     xml_attribute<> *newAttr2 = myDoc.allocate_attribute("fill", "red");
+        //     newNode->append_attribute(newAttr2); //Atributo "fill" para <path>
+        //     //producer of new paths
+
+        //     //We create a ------ for the result 
+
+        //     //string ruta= "Results/";
+              
+        //     //string ruta_absoluta = ruta + name;
+        //     //cout << ruta_absoluta;
+        //     //if (mkdir(ruta_absoluta.c_str()) == 1){
+        //     //    cout << "Carpeta creada correctamente" << endl;
+        //     //} else 
+        //     //    cout << "Ha ocurrido un error al crear la carpeta" << endl;
 
 
-            string newFileName = name + to_string(pFrames)  + ".svg";
+        //     string newFileName = "Results/" + name + to_string(pFrames)  + ".svg";
            
 
             
-            char newFileNameCopy[100];
-            strcpy(newFileNameCopy,newFileName.c_str());
-            cout << newFileNameCopy;
+        //     char newFileNameCopy[100];
+        //     strcpy(newFileNameCopy,newFileName.c_str());
+        //     cout << newFileNameCopy;
 
-            // cout << newPoints <<endl;
+        //     // cout << newPoints <<endl;
 
 
-            ofstream copyFile(newFileNameCopy); //Nuevo archivo
-            stringstream ss;
-            ss << *myDoc.first_node(); //Pasa el nodo ra�z a ss
-            string stringXML = ss.str(); //ss.toString
-            copyFile << stringXML;
-            copyFile.close(); //Escribe y cierra
+        //     ofstream copyFile(newFileNameCopy); //Nuevo archivo
+        //     stringstream ss;
+        //     ss << *myDoc.first_node(); //Pasa el nodo ra�z a ss
+        //     string stringXML = ss.str(); //ss.toString
+        //     copyFile << stringXML;
+        //     copyFile.close(); //Escribe y cierra
 
-            //Document to String
-           // string strXML;
-            //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
-            //cout << strXML << endl;
+        //     //Document to String
+        //     //string strXML;
+        //     //print(back_inserter(strXML), myDoc, 0); //Copia el texto del Document en la variable
+        //     //cout << strXML << endl;
 
-        }
+        // }
 
+        
 };
 
 #endif
