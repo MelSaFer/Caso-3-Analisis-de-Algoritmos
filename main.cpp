@@ -14,7 +14,7 @@ Students:
 //#include "DataProcessingCopy.h"
 #include "Classes/SelectionClass.h"
 #include "Classes/Plataform.h"
-#include "Classes/GenerationClass.h"
+// #include "Classes/GenerationClass.h"
 #include "Classes/RoutingClass.h"
 
 
@@ -38,6 +38,8 @@ int main (){
     //selection->attach(ambiente);
     //cout << "\n\n\n\n" << endl;
 
+    float radians = 4.71239;
+
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
     float p2[2] = {300.848, 274.711};
@@ -56,6 +58,8 @@ int main (){
     string color2 = "#1133FF";
     colors.push_back(color1);
     colors.push_back(color2);
+
+    int frames = 5; 
 
     // //selection->processOfSelection(svgPaths, colors, points);
 
@@ -85,17 +89,20 @@ int main (){
     int* ClassId = &code;
     selection->notify(ClassId, selectedPaths);
 
+    cout << "---------------------------------------" << endl;
+    cout << "---------------------------------------" << endl;
     Routing* rou = new Routing();
+    selectedPaths = rou->routingPreProcess(radians, selectedPaths, 628.254, 613.516, frames);
 
 
 
-   Generation* gen = new Generation();
-   cout << "call" << endl;
-   gen->generateNewPath(selectedPaths, file);
+//    Generation* gen = new Generation();
+//    cout << "call" << endl;
+//    gen->generateNewPath(selectedPaths, file);
 
     //delete selection;
     delete selection;
-    delete gen;
+    // delete gen;
     delete rou;
     return 0;
 

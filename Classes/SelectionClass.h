@@ -134,7 +134,11 @@ class Selection : public Subject{
                     (pPointsToFind.at(currentComparisonIndex)[1] <= pCurrentPath->getMaxQuadrantCoordY())){
 
                     itsACoordinateMatch=true; //The path has at least one point of coincidence
-                    pCurrentPath->addCoincidencePoint(pPointsToFind.at(currentComparisonIndex));
+                    PointInPath coincidenceCoordenate;
+                    coincidenceCoordenate.xCoordinate = pPointsToFind.at(currentComparisonIndex)[0];
+                    coincidenceCoordenate.yCoordinate = pPointsToFind.at(currentComparisonIndex)[1];
+                    // pCurrentPath->addCoincidencePoint(pPointsToFind.at(currentComparisonIndex));
+                    pCurrentPath->addCoincidencePoint(coincidenceCoordenate);
                 }
             }
 
