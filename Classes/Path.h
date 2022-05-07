@@ -410,6 +410,11 @@ class Path{
             return coincidencePoints.at(pIndexOfPoint);
         }
 
+        PointInPath getVectorOffMovs(int pIndexOfPoint) {
+            return coincidencePoints.at(pIndexOfPoint);
+        }
+        
+
         void modifyPointInPath(PointInPath pCoincidencePoint, int pPointPosition){
             coincidencePoints.at(pPointPosition) = pCoincidencePoint;
         }

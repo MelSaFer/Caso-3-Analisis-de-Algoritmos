@@ -99,13 +99,13 @@ int main (){
 
 
 
-//    Generation* gen = new Generation();
+    Generation* gen = new Generation();
 //    cout << "call" << endl;
-//    gen->generateNewPath(selectedPaths, file);
+    gen->processSelectedPaths(selectedPaths, file, "recyclingsymbol.svg", frames);
 
     //delete selection;
     delete selection;
-    // delete gen;
+    delete gen;
     delete rou;
     return 0;
 
