@@ -73,7 +73,6 @@ int main (){
 
     vector<Path*> svgPaths = pathDataProcessing(file);
 
-
     //---------------------------------
     
     Selection* selection = new Selection();

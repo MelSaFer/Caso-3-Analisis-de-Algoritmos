@@ -20,10 +20,7 @@ class Plataform : public Observer {
         ~Plataform() {}
 
         void update(void* pClassId, vector<Path*> pPaths) {
-            // (int*) = castear el puntero void a puntero a int
-            // (int) = valor del int al que apunta
-           // int pClassId= pSubject->getClassId();
-            //cout << pClassId << endl;
+            
             int notifyValue = *(int*)pClassId;
 
             if (notifyValue == 1)
