@@ -137,13 +137,17 @@ class Selection : public Subject{
             char *colorTextPathGreen;
             char *colorTextPathBlue;
 
-            colorTextPathRed = pCurrentPath->getPathColor().substr(1,2).data();
-            colorTextPathGreen = pCurrentPath->getPathColor().substr(3,2).data();
-            colorTextPathBlue = pCurrentPath->getPathColor().substr(5,6).data();
+            // cout << "Color: " << pCurrentPath->getPathColor() << endl;
+            if(pCurrentPath->getPathColor().size() > 0){
+                colorTextPathRed = pCurrentPath->getPathColor().substr(1,2).data();
+                colorTextPathGreen = pCurrentPath->getPathColor().substr(3,2).data();
+                colorTextPathBlue = pCurrentPath->getPathColor().substr(5,6).data();
 
-            rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
-            rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
-            rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
+                rgbColorsPath[0] = strtol(colorTextPathRed, NULL, 16);
+                rgbColorsPath[1] = strtol(colorTextPathGreen, NULL, 16);
+                rgbColorsPath[2] = strtol(colorTextPathBlue, NULL, 16);
+            }
+            
 
             //This variable is use in the cicles
             int currentComparisonIndex;

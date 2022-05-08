@@ -75,6 +75,7 @@ class Routing {
             float coordenateX = pPathCoordinates.xCoordinate;
             float coordenateY = pPathCoordinates.yCoordinate;
             float degrees = pRadians * (180/M_PI); // convert de radians to degrees
+            cout << "Degrees: " << degrees << endl;
 
             if(degrees == 0 || degrees == 360){ // Special cases (when the degrees are 0, 90, 180, 270, 360)
                 coordenateX = pSvgLenght;
@@ -160,7 +161,7 @@ class Routing {
                     if(coincidenceY <= 0 || coincidenceY >= pSvgWidth){
                         coincidenceY = pSvgWidth;}
                     if(coincidenceX <= 0 || coincidenceX >= pSvgLenght){
-                        coincidenceX = 100;}
+                        coincidenceX = pSvgLenght;}
                     cout << "Case4/ the point touches the edge at: " << coincidenceX << ", " << coincidenceY << endl;
                     endPoint[0] = coincidenceX;
                     endPoint[1] = coincidenceY;

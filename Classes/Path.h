@@ -241,7 +241,8 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
     float actualNumber = 0;
 
     while(getline(input_stringstream, actualNumberString, ' ')){  
-        if (actualNumberString.length() > 0){
+        if (actualNumberString.length() > 0 ){
+            char letra = actualNumberString[0];
             actualNumber = stof(actualNumberString);
             if(isCoordinateX == 1){
                 currentPoint.xCoordinate = actualNumber;
@@ -251,15 +252,15 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
                 isCoordinateX=1;
             }
         }
+    }
+    if(pPathPoints.size() > 0){
+        if ((currentPointString.at(0) >= 97) && (currentPointString.at(0) <= 122)) {
+            PointInPath lastPoint;
+            lastPoint = pPathPoints.back();
+            currentPoint.xCoordinate += lastPoint.xCoordinate;
+            currentPoint.yCoordinate += lastPoint.yCoordinate;
         }
-        if(pPathPoints.size() > 0){
-            if ((currentPointString.at(0) >= 97) && (currentPointString.at(0) <= 122)) {
-                PointInPath lastPoint;
-                lastPoint = pPathPoints.back();
-                currentPoint.xCoordinate += lastPoint.xCoordinate;
-                currentPoint.yCoordinate += lastPoint.yCoordinate;
-            }
-        }
+    }
     return currentPoint;
 }
 

@@ -89,14 +89,17 @@ void extractNodeData(xml_node<>* node){
                 for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
                     //assing the value to the respective variable
 					if (attrib->name() == (string)"id"){
+                        // cout <<"Id: " << attrib->name() << endl;
 						currentPath->setIdentifier(attrib->value());
 					}
                     else if (attrib->name() == (string)"fill"){
                         currentPath->setPathColor(attrib->value());
+                        // cout <<"f: " << attrib->value() << endl;
                     }
                     else if (attrib->name() == (string)"d"){
                         currentPath->setPathPoints(attrib->value());
                         //ccout << "\nhola" << attrib->value();
+                        // cout <<"d " << attrib->value() << endl;
                         currentPath->setQuadrantPoints();
                     }
                     else if (attrib->name() == (string)"style"){

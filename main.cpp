@@ -30,7 +30,7 @@ int main (){
 
 //DATA-----------------------------------------------------------------------------------------------------
     //File 
-    char fileName[] = "Svg/recyclingsymbol.svg";
+    char fileName[] = "Svg/fish.svg";
     //Points to find
     vector<float*> points;
 
@@ -39,6 +39,8 @@ int main (){
     float p2[2] = {300.848, 274.711};
     float p3[2] = {200.848, 474.711};
     float p4[2] = {50.848, 454.711};
+
+    float p6[2] = {500, 530};
     
     // Points are added
     points.push_back(p1);
@@ -46,16 +48,19 @@ int main (){
     points.push_back(p3);
     points.push_back(p4);
     points.push_back(p5);
+    points.push_back(p6);
 
     // Radians
-    float radians = 0.837758;
+    float radians = 4.92183;
 
     //Colors to find
     vector<string> colors;
     string color1 = "#bf7f24";
     string color2 = "#1133FF";
+    string color3 = "#57bce6";
     colors.push_back(color1);
     colors.push_back(color2);
+    colors.push_back(color3);
 
     //Frames
     int frames = 5;
@@ -90,9 +95,9 @@ int main (){
     int* ClassId = &code;
     selection->notify(ClassId, selectedPaths);
 
-    //==================================================================
+    // ==================================================================
     // ROUTING -> BACKTRACKING
-    //==================================================================
+    // ==================================================================
 
     cout << "---------------------------------------" << endl;
     cout << "---------------------------------------" << endl;
@@ -103,13 +108,13 @@ int main (){
     //==================================================================
     // GENERATION -> DYNAMIC PROGRAMMING
     //==================================================================
-    Generation* gen = new Generation();
-    // cout << "call" << endl;
-    gen->processSelectedPaths(selectedPaths, file, "recyclingsymbol.svg", frames);
+    // Generation* gen = new Generation();
+    // // cout << "call" << endl;
+    // gen->processSelectedPaths(selectedPaths, file, "recyclingsymbol.svg", frames);
 
     //delete selection;
     delete selection;
-    delete gen;
+    // delete gen;
     delete rou;
     return 0;
 }
