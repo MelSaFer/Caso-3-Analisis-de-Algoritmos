@@ -108,6 +108,4 @@ int main (){
     delete gen;
     delete rou;
     return 0;
-
-
 }
