@@ -170,15 +170,20 @@ class Routing {
                 cout << "==========================" << endl;
 
                 for(int i =0; i < pSelectedPaths.at(pathPosition)->getCoincidencePoints(coincidencePointPosition).offsetPoints.size(); i++){
-                    cout << pSelectedPaths.at(pathPosition)->getCoincidencePoints(coincidencePointPosition).offsetPoints.at(i) << endl;
+                    // cout << pSelectedPaths.at(pathPosition)->getCoincidencePoints(coincidencePointPosition).offsetPoints.at(i) << endl;
                 }
             }           
         }
         return pSelectedPaths;
     }
 
-    // n = cada path
-    // vector de soluciones
+    /*
+    -> BACKTRACKING
+            n = each path
+            SOLUTION VECTOR (implicit): list of animation points, discarding those that do not generate significant movements
+            PODA: with the final point calculated, the distance between the start and the end is calculated and 
+                divided by the number of frames, so only the necessary points will be made.
+    */ 
     PointInPath routingProcess (PointInPath coincidencePoint, float pSvgLenght, float pSvgWidth, float radianes, int pFrames){
         float grados = radianes * (180/M_PI);
         float nextMove[2] = {coincidencePoint.xCoordinate, coincidencePoint.yCoordinate};
