@@ -419,21 +419,7 @@ class Path{
             coincidencePoints.at(pPointPosition) = pCoincidencePoint;
         }
 
-        // void modifyOffsetPoints(int position, float x, float y){
-        //     float a[2] = {x,y};
-        //     coincidencePoints.at(position).offsetPoints.push_back(a);
-        // }
-
-        // void addOffsetPoint(int pIndexOfPoint, float pCoordenateX, float pCoordenateY){
-        //     float newOffsetPoint[2];
-
-        //     newOffsetPoint[0] = pCoordenateX;
-        //     newOffsetPoint[1] = pCoordenateY;
-
-        //     coincidencePoints.at(pIndexOfPoint).offsetPoints.push_back(newOffsetPoint);
-        //     cout << "se agrego nuevo offset" << endl;
-        // }
-
+       
         float getMaxQuadrantCoordX(){
             return maxQuadrantPoint[0];
         }
@@ -449,6 +435,8 @@ class Path{
         float getMinQuadrantCoordY(){
             return minQuadrantPoint[1];
         }
+
+        
 
 
         void toString(){

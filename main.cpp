@@ -33,13 +33,6 @@ int main (){
     char fileName[] = "Svg/recyclingsymbol.svg";
     //Point to find
     vector<float*> points;
-    
-    //file<> file("Svg/recyclingsymbol.svg");
-
-    //Plataform* ambiente = new Plataform();
-
-    //vector<Path*> svgPaths = pathDataProcessing(file);
-
 
     float radians = 0.837758;
 
@@ -72,7 +65,6 @@ int main (){
     Plataform* ambiente = new Plataform();
 
     vector<Path*> svgPaths = pathDataProcessing(file);
-
 
     //---------------------------------
     

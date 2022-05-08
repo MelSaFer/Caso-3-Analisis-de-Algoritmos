@@ -6,6 +6,7 @@
         "xstring": "cpp",
         "xlocale": "cpp",
         "xlocmon": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "iosfwd": "cpp"
     }
 }

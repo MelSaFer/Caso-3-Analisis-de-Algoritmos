@@ -23,6 +23,17 @@
 using namespace std;
 using namespace rapidxml; // Namespace de la librería
 
+
+/*
+________________________________________________________________________________________________________
+Class Generation
+    This class is use for the process of generate new Paths
+    Attributes: int:ClassId  
+                list<Observers>:ObserverList
+    Methods: getClassId
+             processSelectedPaths
+________________________________________________________________________________________________________
+*/
 class Generation{
     private:
         // Paths selecionados
@@ -30,25 +41,9 @@ class Generation{
         list<Observer *> ObserversList;
 
     public:
-        //
         Generation() {}
         ~Generation() {}
-        //
-        //        void attach(Observer* pNewObserver) {
-        //            ObserversList.emplace_back(pNewObserver);
-        //        }
-        //
-        //        void detach(Observer* pObserverDelete) {
-        //            ObserversList.remove(pObserverDelete);
-        //        }
-        //
-        //        void notify(void* pClassId) {
-        //            for (Observer* currentObserver: ObserversList) {
-        //                thread t(&Observer::update, currentObserver, pClassId); // parametros = (direccionDeMetodo, instancia/objeto, parametro)
-        //                t.join(); // espere a que t termine
-        //            }
-        //        }
-
+      
         int getClassId(){
             return ClassId;
         }
@@ -69,41 +64,83 @@ class Generation{
             PointInPath previusPoint;
             for ( int framesGenerated = 0; framesGenerated < pFrames; framesGenerated++){
                 for (int currentPathIndex = 0; currentPathIndex < pSelectedPaths.size(); currentPathIndex++){
-                    processCurrentPath(pSelectedPaths.at(currentPathIndex), &xmlDoc, framesGenerated);
+                    processCurrentPath(pSelectedPaths.at(currentPathIndex), &xmlDoc, framesGenerated, pName);
                     
-                    pSelectedPaths.at(currentPathIndex)->toString();
                 }//
+                
             }
         }
 
-        void processCurrentPath(Path* pCurrentPath, xml_document<> *pXmlDoc, int pFramesGenerated){
-            for(int currentCoincidence = 0; currentCoincidence < pCurrentPath->getCoincidencePoints().size() ; currentCoincidence++){
-                stages(pCurrentPath->getCoincidencePoints(currentCoincidence), pXmlDoc, pFramesGenerated);
+        void processCurrentPath(Path* pCurrentPath, xml_document<> *pXmlDoc, int pFramesGenerated, string pName){
+            for(int currentCoincidence = 0; currentCoincidence < pCurrentPath->getCoincidencePoints().size() ; currentCoincidence+=2){
+                stages(pCurrentPath->getCoincidencePoints(currentCoincidence), pXmlDoc, pFramesGenerated, currentCoincidence);
             }
-
+            newSVGGenerator(pName,pFramesGenerated, pXmlDoc);
         }
 
-        void stages(PointInPath pCurrentPoint, xml_document<> *myDoc, int currentFrame){
-            cout <<"X original: " << pCurrentPoint.xCoordinate <<endl;
-             for(int i = 0; i < pCurrentPoint.offsetPoints.size(); i++){
-                cout <<"\tX : " << pCurrentPoint.offsetPoints[0] <<endl;
+        void stages(PointInPath pCurrentPoint, xml_document<> *pXmlDoc, int currentFrame, int actualNumber){
+            //cout <<"X original: " << pCurrentPoint.xCoordinate <<endl;
+            for(int i = 0; i < pCurrentPoint.offsetPoints.size(); i++){
+                cout <<"\tX : " << pCurrentPoint.offsetPoints[i] <<endl;
             }
-            // float newMaxX = 10.0 + pCurrentPoint.at(currentFrame)[0];   //[0];
+                //cout << "Call2" << endl;
+
+            char newPointsInPath[200];
+            
+
+            float newMaxX = pCurrentPoint.offsetPoints.at(actualNumber) + 10;   //[0];
             // cout << pCurrentPoint.at(currentFrame)[0]<<endl;
-            // float newMinX = 10.0 - pCurrentPoint.at(currentFrame)[0];
-            // float newMaxY = 10.0 + pCurrentPoint.at(currentFrame)[1];
-            // float newMinY = 10.0 - pCurrentPoint.at(currentFrame)[1];
+            float newMinX = pCurrentPoint.offsetPoints.at(actualNumber) - 10;
+            float newMaxY = pCurrentPoint.offsetPoints.at(actualNumber+1) + 10;
+            float newMinY = pCurrentPoint.offsetPoints.at(actualNumber+1) - 10;
 
-            // string space = " ";
+            pCurrentPoint.offsetPoints.erase(pCurrentPoint.offsetPoints.begin()+1);
+            //pCurrentPoint.offsetPoints.;
 
-            // string newPoints = "M" + space + to_string(newMinX) + space + to_string(newMinY) + space + \
-            //              to_string(newMaxX) + space + to_string(newMinY) + space + to_string(newMaxX) + space + \
-            //              to_string(newMaxY) + space + to_string(newMinX) + space + to_string(newMaxY)+ " Z";
 
-            // cout << newPoints<< endl;
+            string space = " ";
+            string letter = "M";
 
-            // //xml_node<> *newNode;
+            string newPoints = letter + space + to_string(newMinX) + space + to_string(newMinY) + space + \
+                        to_string(newMaxX) + space + to_string(newMinY) + space + to_string(newMaxX) + space + \
+                        to_string(newMaxY) + space + to_string(newMinX) + space + to_string(newMaxY)+ " Z";
 
+            
+            strcpy(newPointsInPath,newPoints.c_str());
+            char *prueba = new char[newPoints.size()+1];
+            std::copy(newPoints.begin(), newPoints.end(), prueba);
+            prueba[newPoints.size()] = '\0';
+            cout << "Prueba: " << prueba<<endl;
+
+
+            xml_node<> *newNode = pXmlDoc->allocate_node(node_element, "path");
+            pXmlDoc->first_node()->append_node(newNode); //Elemento <path>
+
+            xml_attribute<> *newAttr = pXmlDoc->allocate_attribute("d", prueba);
+            newNode->append_attribute(newAttr); 
+           
+
+            xml_attribute<> *newAttr2;
+            newAttr2 = pXmlDoc->allocate_attribute("fill", "green");
+            newNode->append_attribute(newAttr2);
+
+            delete[] prueba;
+
+        }
+
+        void newSVGGenerator(string name, int pFrames, xml_document<> *pXmlDoc){
+            name.erase((name.length()-4));
+            string newFileName = "Results/p" + name + to_string(pFrames)  + ".svg";
+            char newFileNameCopy[100];
+            strcpy(newFileNameCopy,newFileName.c_str());
+            cout << newFileNameCopy << endl;;
+
+            ofstream copyFile(newFileNameCopy); //Nuevo archivo
+            stringstream ss;
+            ss << *pXmlDoc->first_node(); //Pasa el nodo ra�z a ss
+            string stringXML = ss.str(); //ss.toString
+            copyFile << stringXML;
+            copyFile.close(); //Escribe y cierra
         }
 
         // void generateNewPath(vector<Path*> pSelectedAndModifiedPaths, file<> pFile, string pName, int pFrames){

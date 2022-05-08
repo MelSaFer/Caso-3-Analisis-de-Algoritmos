@@ -1,6 +1,7 @@
 #ifndef DATAPROCESSING
 #define DATAPROCESSING
 
+//Libraries ---------------------------------------------------------------------------------------------
 #include <iostream>
 #include <stdlib.h>
 #include "rapidxml/rapidxml_ext.hpp" //Class 
@@ -14,16 +15,20 @@
 using namespace std;
 using namespace rapidxml; //Namespace of the library
 
+//Predefinition of funtions
 void extractXMLData(xml_document<>* doc);
 void extractNodeData(xml_node<>* node);
 
 vector<Path*> svgPaths;   //stores all the path while the program reads the file
 int pathPosition = 1;
 
-//___________________________________________________________________________________________________________________________
-/* Funtion for extracting the data int the root of the document****
-Input: root of the tree after the parse****
-Return: None
+
+/* 
+-----------------------------------------------------------------------------
+Funtion for extracting the data int the root of the document****
+    Input: root of the tree after the parse****
+    Return: None
+-----------------------------------------------------------------------------
 */
 void extractXMLData(xml_document<>* doc){
     xml_node<>* node = doc->first_node();
@@ -60,10 +65,13 @@ void extractXMLData(xml_document<>* doc){
     
 }
 
-//___________________________________________________________________________________________________________________________
-/* Funtion for extracting the data int the node****
-Input: a node of the document(tree with information of the document)
-Return: None
+
+/* 
+-----------------------------------------------------------------------------
+Funtion for extracting the data in the node
+    Input: a node of the document(tree with information of the document)
+    Return: None
+-----------------------------------------------------------------------------
 */
 void extractNodeData(xml_node<>* node){
     for (node = node->first_node(); node != NULL; node = node->next_sibling()){
@@ -101,10 +109,14 @@ void extractNodeData(xml_node<>* node){
     }
 }
 
-//___________________________________________________________________________________________________________________________
-
+/* 
+-----------------------------------------------------------------------------
+This funtion parse the document
+    Input: a file 
+    Return: All the paths of the svg
+-----------------------------------------------------------------------------
+*/
 vector<Path*> pathDataProcessing( file<> file){
-    //file<> file("Svg/recyclingsymbol.svg"); // read the file
   	xml_document<> myDoc; //root of the tree
   	myDoc.parse<0>(file.data()); //Parse the XML into a DOM
 
@@ -112,4 +124,11 @@ vector<Path*> pathDataProcessing( file<> file){
 	extractXMLData(&myDoc);
     return svgPaths; 
 }
+
+
+
+
+
+
+
 #endif
