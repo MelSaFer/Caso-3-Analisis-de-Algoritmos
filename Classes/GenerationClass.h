@@ -86,12 +86,17 @@ class Generation{
                 //cout << "Call2" << endl;
 
             char newPointsInPath[200];
+            
 
-            float newMaxX = pCurrentPoint.offsetPoints.at(actualNumber)+10;   //[0];
+            float newMaxX = pCurrentPoint.offsetPoints.at(actualNumber) + 10;   //[0];
             // cout << pCurrentPoint.at(currentFrame)[0]<<endl;
-            float newMinX = pCurrentPoint.offsetPoints.at(actualNumber)-10;
-            float newMaxY = pCurrentPoint.offsetPoints.at(actualNumber+1)+ 10;
-            float newMinY = pCurrentPoint.offsetPoints.at(actualNumber+1)- 10;
+            float newMinX = pCurrentPoint.offsetPoints.at(actualNumber) - 10;
+            float newMaxY = pCurrentPoint.offsetPoints.at(actualNumber+1) + 10;
+            float newMinY = pCurrentPoint.offsetPoints.at(actualNumber+1) - 10;
+
+            pCurrentPoint.offsetPoints.erase(pCurrentPoint.offsetPoints.begin()+1);
+            //pCurrentPoint.offsetPoints.;
+
 
             string space = " ";
             string letter = "M";
@@ -100,13 +105,18 @@ class Generation{
                         to_string(newMaxX) + space + to_string(newMinY) + space + to_string(newMaxX) + space + \
                         to_string(newMaxY) + space + to_string(newMinX) + space + to_string(newMaxY)+ " Z";
 
-            strcpy(newPointsInPath,newPoints.c_str());
             
+            strcpy(newPointsInPath,newPoints.c_str());
+            char *prueba = new char[newPoints.size()+1];
+            std::copy(newPoints.begin(), newPoints.end(), prueba);
+            prueba[newPoints.size()] = '\0';
+            cout << "Prueba: " << prueba<<endl;
+
 
             xml_node<> *newNode = pXmlDoc->allocate_node(node_element, "path");
             pXmlDoc->first_node()->append_node(newNode); //Elemento <path>
 
-            xml_attribute<> *newAttr = pXmlDoc->allocate_attribute("d", newPointsInPath);
+            xml_attribute<> *newAttr = pXmlDoc->allocate_attribute("d", prueba);
             newNode->append_attribute(newAttr); 
            
 
@@ -114,9 +124,12 @@ class Generation{
             newAttr2 = pXmlDoc->allocate_attribute("fill", "green");
             newNode->append_attribute(newAttr2);
 
+            delete[] prueba;
+
         }
 
         void newSVGGenerator(string name, int pFrames, xml_document<> *pXmlDoc){
+            name.erase((name.length()-4));
             string newFileName = "Results/p" + name + to_string(pFrames)  + ".svg";
             char newFileNameCopy[100];
             strcpy(newFileNameCopy,newFileName.c_str());
