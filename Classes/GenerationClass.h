@@ -56,28 +56,56 @@ class Generation{
             -Local Optimun: The modifided points in the current path
             -Global Optimun: All the new paths
             -Memorization: We use the previus path to improve the current path
+        Temporal complexity = 
         */
 
+       /*
+        --------------------------------------------------------------------------------------------------------------------------------
+        In this part we call the function who generate the nwe paths
+            Parameters: A vector with al the Selected Paths, a file, the name of the file and the frames
+            Returs: None
+        Temporal complexity = O(f*n)
+        --------------------------------------------------------------------------------------------------------------------------------
+        */
         void processSelectedPaths(vector<Path*> pSelectedPaths, file<> pFile, string pName, int pFrames){
-            xml_document<> xmlDoc;         // Ra�z del �rbol DOM
-            xmlDoc.parse<0>(pFile.data()); // Parsea el XML en un DO
-            PointInPath previusPoint;
+            xml_document<> xmlDoc; 
+            xmlDoc.parse<0>(pFile.data()); 
+            //With this cicle we control the frames we are creating -> frames veces
             for ( int framesGenerated = 0; framesGenerated < pFrames; framesGenerated++){
+                //We analize every path 
                 for (int currentPathIndex = 0; currentPathIndex < pSelectedPaths.size(); currentPathIndex++){
-                    processCurrentPath(pSelectedPaths.at(currentPathIndex), &xmlDoc, framesGenerated, pName);
-                    
+                    //This funtion
+                    processCurrentPath(pSelectedPaths.at(currentPathIndex), &xmlDoc, framesGenerated, pName); 
                 }//
                 
             }
         }
 
+        /*
+        --------------------------------------------------------------------------------------------------------------------------------
+        In this part we analice a path and call the function for every stage of the process
+            Parameters: the current path, an xml document, the name of the file and the frames
+            Returs: None
+        Temporal complexity = O
+        --------------------------------------------------------------------------------------------------------------------------------
+        */
         void processCurrentPath(Path* pCurrentPath, xml_document<> *pXmlDoc, int pFramesGenerated, string pName){
             for(int currentCoincidence = 0; currentCoincidence < pCurrentPath->getCoincidencePoints().size() ; currentCoincidence+=2){
+                //
                 stages(pCurrentPath->getCoincidencePoints(currentCoincidence), pXmlDoc, pFramesGenerated, currentCoincidence);
+                
             }
             newSVGGenerator(pName,pFramesGenerated, pXmlDoc);
         }
 
+        /*
+        --------------------------------------------------------------------------------------------------------------------------------
+        In this part we the movement points in the current path and the current point
+            Parameters: the current point, an xml document, the name of the file and the frames
+            Returs: None
+        Temporal complexity = O
+        --------------------------------------------------------------------------------------------------------------------------------
+        */
         void stages(PointInPath pCurrentPoint, xml_document<> *pXmlDoc, int currentFrame, int actualNumber){
             //cout <<"X original: " << pCurrentPoint.xCoordinate <<endl;
             for(int i = 0; i < pCurrentPoint.offsetPoints.size(); i++){

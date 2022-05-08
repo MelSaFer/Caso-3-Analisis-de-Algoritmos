@@ -95,13 +95,14 @@ class Selection : public Subject{
             Parameters: A vector with al the Paths in the svg, a vector with the colors and a vector of the points we are
                         looking for
             Return: A vector with the selected paths
-        Temporal complexity = O(n)
+        Temporal complexity = O(n*(c+p))
         --------------------------------------------------------------------------------------------------------------------------------
         */
         vector<Path*> selecctionDivide(vector<Path*> pPathsInTheSVG, vector<string> pColorsToFind, vector<float*> pPointsToFind){
             vector<Path*> selectedPaths;
             //----------------------With this cycle we analize every path (our N)----------------------
             for(int currentPathIndex = 0; currentPathIndex < pPathsInTheSVG.size(); currentPathIndex++){
+                //Call the funtion-> O(c+p)
                 selectedPaths = this->selectionConquer(pPathsInTheSVG.at(currentPathIndex),selectedPaths, pColorsToFind, pPointsToFind);
             }
             return selectedPaths;
@@ -113,8 +114,9 @@ class Selection : public Subject{
             Parameters: A vector with al the Paths in the svg, a vector with the colors and a vector of the points we are
                         looking for
             Returs: The vector of selected paths modified
+        Temporal complexity = O(C+P)
+        --------------------------------------------------------------------------------------------------------------------------------
         */
-        // O(C+P)
         vector<Path*> selectionConquer(Path* pCurrentPath, vector<Path*> pSelectedPaths, vector<string> pColorsToFind, vector<float*> pPointsToFind){
 
             //This variables are used like flags for the colors and points

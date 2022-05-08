@@ -1,15 +1,16 @@
+#ifndef PATH
+#define PATH
+
 /*
 Main class used to save the path data. It's used in all three stages.
 */
-
-#ifndef PATH
-#define PATH
 
 #include <string>
 #include <vector>
 #include <iostream>
 #include<fstream>
 #include <sstream>
+
 using namespace std;
 
 
@@ -18,13 +19,16 @@ struct PointInPath{
     float xCoordinate;
     float yCoordinate;
     string svgCommand;
-    vector <float> offsetPoints;
-    //int positionInCommand; //Use in figures with more than 1 point of reference (like curves)
-    //bool isCoordinate;
-    //Creo que aqui deberia haber una lista de movimientos de este punto, no en el path en si como lo tenemos
-    //pero si usted lo ve bien asi super, yo solo digo, por eso no lo cambie. Atte: Mel;)
+    vector <float> offsetPoints; //This vector is for save the movement points generated in routing
 };
 
+/*
+-----------------------------------------------------------------------------
+This function normalize the path (if it comes with "," put " ")
+    Parameters: The string of the attribute d of a path
+    Return: The string with the changes
+-----------------------------------------------------------------------------
+*/
 string normalizePath(string currentPointString){
     string normalizedString;
     for(int currentLetter = 0; currentLetter < currentPointString.length(); currentLetter++){
@@ -36,6 +40,14 @@ string normalizePath(string currentPointString){
     return normalizedString;
 }
 
+/*
+-----------------------------------------------------------------------------
+This function reads the case when we have an H or an V in the attribute d
+    Parameters: The string of the attribute d of a path and the vector
+                of points in the current path
+    Return: the current point
+-----------------------------------------------------------------------------
+*/
 PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathPoints){
     PointInPath lastPoint;
     lastPoint = pPathPoints.back();
@@ -45,11 +57,11 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     currentPoint.yCoordinate = lastPoint.yCoordinate;
     string copyCurrentPointString = currentPointString;
 
-    // asignacion de que es m
+    // assign the letter (in this case H or V)
     currentPoint.svgCommand = currentPointString[0];
-    // se borra el m
+    // deletes the letter 
     currentPointString.erase(0,1);
-    //string lectura;
+    
     string actualNumberString;
     stringstream input_stringstream(currentPointString); 
 
@@ -81,6 +93,14 @@ PointInPath specialCaseHV(string currentPointString, vector<PointInPath> &pPathP
     return currentPoint;
 }
 
+/*
+-----------------------------------------------------------------------------
+This function reads the case when we have a C
+    Parameters: The string of the attribute d of a path and the vector
+                of points in the current path
+    Return: the current point
+-----------------------------------------------------------------------------
+*/
 PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPoints){
     PointInPath currentPoint;
     string copyCurrentPointString = currentPointString;
@@ -92,44 +112,40 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
 
             currentPoint.xCoordinate = lastPoint.xCoordinate;
             currentPoint.yCoordinate = lastPoint.yCoordinate;
-
-            //cout << "Coordenada anterior = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
         }
     }
     
     currentPoint.svgCommand = currentPointString[0];
     currentPointString.erase(0,1);
     string actualNumberString;
-    stringstream input_stringstream(currentPointString);  //stringstream input_stringstream(cadena);
+    stringstream input_stringstream(currentPointString); 
 
     float actualNumber = 0;
-    int contadorSeis = 0;
+    int currentPosition = 0;
 
-    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
+    while(getline(input_stringstream, actualNumberString, ' ')){  
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
             if (copyCurrentPointString.at(0) == 67){
-                contadorSeis++;
-                if(contadorSeis == 5){
+                currentPosition++;
+                if(currentPosition == 5){
                     currentPoint.xCoordinate = actualNumber;
                 }
-                if(contadorSeis == 6){
+                if(currentPosition == 6){
                     currentPoint.yCoordinate = actualNumber;
                     pPathPoints.push_back(currentPoint);
-                    contadorSeis = 0;
-                    //cout << "Coordenada de C = (" << currentPoint.xCoordinate << ", " << currentPoint.yCoordinate << ")" << endl;
+                    currentPosition = 0;
                 }
             }
             else{
-                //cout << "Es minuscula" << endl;
-                contadorSeis++;
-                if(contadorSeis == 5){
+                currentPosition++;
+                if(currentPosition == 5){
                     currentPoint.xCoordinate += actualNumber;
                 }
-                if(contadorSeis == 6){
+                if(currentPosition == 6){
                     currentPoint.yCoordinate += actualNumber;
                     pPathPoints.push_back(currentPoint);
-                    contadorSeis = 0;
+                    currentPosition = 0;
                 }
             }
 
@@ -138,7 +154,14 @@ PointInPath specialCaseC(string currentPointString, vector<PointInPath> &pPathPo
     return currentPoint;
 }
 
-
+/*
+-----------------------------------------------------------------------------
+This function reads the case when we have a ML
+    Parameters: The string of the attribute d of a path and the vector
+                of points in the current path
+    Return: the current point
+-----------------------------------------------------------------------------
+*/
 PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathPoints){
     PointInPath currentPoint;
     currentPoint.xCoordinate = 0;
@@ -153,7 +176,6 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
             currentPoint.yCoordinate = lastPoint.yCoordinate;
         }
     }
-
     // Assign the comand to the point
     currentPoint.svgCommand = currentPointString[0];
 
@@ -196,8 +218,15 @@ PointInPath specialCaseML(string currentPointString, vector<PointInPath> &pPathP
     return currentPoint;
 }
 
+/*
+-----------------------------------------------------------------------------
+This function reads the rest of cases
+    Parameters: The string of the attribute d of a path and the vector
+                of points in the current path
+    Return: the current point
+-----------------------------------------------------------------------------
+*/
 PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoints){
-    //cout << "\n-------> " << currentPointString << endl;
     PointInPath currentPoint;
 
     string copyCurrentPointString = currentPointString;
@@ -206,12 +235,12 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
     copyCurrentPointString.erase(0,1);
 
     string actualNumberString;  //string lectura;
-    stringstream input_stringstream(copyCurrentPointString);  //stringstream input_stringstream(cadena);
+    stringstream input_stringstream(copyCurrentPointString); 
 
     bool isCoordinateX = 1;
     float actualNumber = 0;
 
-    while(getline(input_stringstream, actualNumberString, ' ')){  //while (getline(input_stringstream, lectura, ' ')){
+    while(getline(input_stringstream, actualNumberString, ' ')){  
         if (actualNumberString.length() > 0){
             actualNumber = stof(actualNumberString);
             if(isCoordinateX == 1){
@@ -234,10 +263,18 @@ PointInPath parsePoint(string currentPointString, vector<PointInPath> pPathPoint
     return currentPoint;
 }
 
+/*
+-----------------------------------------------------------------------------
+This function decompose-> calls the other funtions for reading
+    Parameters: The string with the points in the svg and a vector
+                with the path points
+    Return: the vector with the new points
+-----------------------------------------------------------------------------
+*/
 vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPathPoints) {
     int initialPosition = 0;
-    int finalPosition = 0;   //last o end?
-    int flagIgnoreFirst = 0;  //flag for ignore the firt if???
+    int finalPosition = 0;   //last position
+    int flagIgnoreFirst = 0;  //flag for ignore the firt if
     PointInPath currentPoint;
 
     int pPointsSvgLenght = pPointsSvg.length();
@@ -290,9 +327,25 @@ vector<PointInPath> decomposeString(string pPointsSvg, vector<PointInPath> pPath
     return pPathPoints;
 }
 
-/*Class Path*/
+/*
+________________________________________________________________________________________________________
+Class Path
+    This class is use to save the information when we do the reading of the svg
+    Attributes: string: identifier ->This is use to save the id of the svg
+                string: pathColor
+                vector<PointInPath>: pathPoints
+                string: pathStyle
+                string: otherInformation 
+                float: maxQuadrantPoint
+                float: minQuadrantPoint
+                vector<PointInPath>: Coincidence points
+    Methods: sets and gets
+             to string
+________________________________________________________________________________________________________
+*/
 class Path{
     private:
+        //Attributes
         string identifier;
         string pathColor;
         vector<PointInPath> pathPoints;
@@ -301,11 +354,10 @@ class Path{
         int positionInPath;
         float maxQuadrantPoint[2];
         float minQuadrantPoint[2];
-        // vector<float*> coincidencePoints;
         vector<PointInPath> coincidencePoints;
 
     public:
-
+        //Methods
         void setPositionInPath(int pCurrentPosition){
             positionInPath = pCurrentPosition;
         }
@@ -350,6 +402,13 @@ class Path{
             return pathStyle;
         }
 
+        /*
+        -----------------------------------------------------------------------------
+        This function sets the maximun and minimum points 
+            Parameters: None
+            Return: None
+        -----------------------------------------------------------------------------
+        */
         void setQuadrantPoints(){
             float maxXCoord;
             float maxYCoord;
@@ -386,17 +445,6 @@ class Path{
             minQuadrantPoint[1] = minYCoord;
         }
 
-        // void addCoincidencePoint(float* coincidencePoint){
-        //     coincidencePoints.push_back(coincidencePoint);
-        // }
-
-        // vector<float*> getCoincidencePoints(){
-        //     return coincidencePoints;
-        // }
-
-        // float* getCoincidencePoints(int pIndexOfCoincidencePoint){
-        //     return coincidencePoints.at(pIndexOfCoincidencePoint);
-        // }
 
         void addCoincidencePoint(PointInPath pCoincidencePoint) {
             coincidencePoints.push_back(pCoincidencePoint);
@@ -435,9 +483,6 @@ class Path{
         float getMinQuadrantCoordY(){
             return minQuadrantPoint[1];
         }
-
-        
-
 
         void toString(){
             cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " ;
