@@ -41,7 +41,7 @@ int main (){
     //vector<Path*> svgPaths = pathDataProcessing(file);
 
 
-    float radians = 4.71239;
+    float radians = 0.837758;
 
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
