@@ -386,18 +386,6 @@ class Path{
             minQuadrantPoint[1] = minYCoord;
         }
 
-        // void addCoincidencePoint(float* coincidencePoint){
-        //     coincidencePoints.push_back(coincidencePoint);
-        // }
-
-        // vector<float*> getCoincidencePoints(){
-        //     return coincidencePoints;
-        // }
-
-        // float* getCoincidencePoints(int pIndexOfCoincidencePoint){
-        //     return coincidencePoints.at(pIndexOfCoincidencePoint);
-        // }
-
         void addCoincidencePoint(PointInPath pCoincidencePoint) {
             coincidencePoints.push_back(pCoincidencePoint);
         }
@@ -435,9 +423,6 @@ class Path{
         float getMinQuadrantCoordY(){
             return minQuadrantPoint[1];
         }
-
-        
-
 
         void toString(){
             cout << "Id: " << identifier << "\nColor: " << pathColor << "\nPoints: " ;

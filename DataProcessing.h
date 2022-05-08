@@ -22,6 +22,8 @@ void extractNodeData(xml_node<>* node);
 vector<Path*> svgPaths;   //stores all the path while the program reads the file
 int pathPosition = 1;
 
+float svgWidth = 0, svgHeight = 0;
+
 
 /* 
 -----------------------------------------------------------------------------
@@ -36,7 +38,7 @@ void extractXMLData(xml_document<>* doc){
     for (xml_attribute<>* attrib = node->first_attribute(); attrib != NULL; attrib = attrib->next_attribute()){
         if(attrib->name() == (string)"viewBox"){
             string viewBoxString = attrib->value();
-            float svgWidth = 0, svgHeight = 0;
+            
             viewBoxString.erase(0,3);
 
             //string lectura; 
@@ -59,6 +61,8 @@ void extractXMLData(xml_document<>* doc){
             }
             cout << attrib->name() << endl;
             cout << attrib->value() << endl;
+
+            cout << svgWidth << ", " << svgHeight << endl;
         }
     }
     extractNodeData(node);   //calls the funtion for extract the info of the node
@@ -123,6 +127,13 @@ vector<Path*> pathDataProcessing( file<> file){
     //Extract the informatito form the svg
 	extractXMLData(&myDoc);
     return svgPaths; 
+}
+
+float* getSvgSize (){
+    float* svgSize = new float[2];
+    svgSize[0] = svgWidth;
+    svgSize[1] = svgHeight;
+    return svgSize;
 }
 
 
