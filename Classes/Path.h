@@ -445,7 +445,6 @@ class Path{
             minQuadrantPoint[1] = minYCoord;
         }
 
-
         void addCoincidencePoint(PointInPath pCoincidencePoint) {
             coincidencePoints.push_back(pCoincidencePoint);
         }

@@ -20,7 +20,7 @@ Class Selection
     This class is use for the process of selection in our program
     Attributes: int:ClassId  
                 list<Observers>:ObserverList
-    Methods: attact
+    Methods: attach
              detach
              notify
              getClassId
@@ -91,7 +91,7 @@ class Selection : public Subject{
 
         /* 
         --------------------------------------------------------------------------------------------------------------------------------
-        In this section we divide our n in paths and call the funcion who analices** the coincidence in the path (selectionConquer)
+        In this section we divide our n in paths and call the function who analizes the coincidence in the path (selectionConquer)
             Parameters: A vector with al the Paths in the svg, a vector with the colors and a vector of the points we are
                         looking for
             Return: A vector with the selected paths
