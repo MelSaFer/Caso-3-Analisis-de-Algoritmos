@@ -18,7 +18,7 @@ struct PointInPath{
     float xCoordinate;
     float yCoordinate;
     string svgCommand;
-    vector <float*> offsetPoints;
+    vector <float> offsetPoints;
     //int positionInCommand; //Use in figures with more than 1 point of reference (like curves)
     //bool isCoordinate;
     //Creo que aqui deberia haber una lista de movimientos de este punto, no en el path en si como lo tenemos
@@ -414,15 +414,20 @@ class Path{
             coincidencePoints.at(pPointPosition) = pCoincidencePoint;
         }
 
-        void addOffsetPoint(int pIndexOfPoint, float pCoordenateX, float pCoordenateY){
-            float newOffsetPoint[2];
+        // void modifyOffsetPoints(int position, float x, float y){
+        //     float a[2] = {x,y};
+        //     coincidencePoints.at(position).offsetPoints.push_back(a);
+        // }
 
-            newOffsetPoint[0] = pCoordenateX;
-            newOffsetPoint[1] = pCoordenateY;
+        // void addOffsetPoint(int pIndexOfPoint, float pCoordenateX, float pCoordenateY){
+        //     float newOffsetPoint[2];
 
-            coincidencePoints.at(pIndexOfPoint).offsetPoints.push_back(newOffsetPoint);
-            cout << "se agrego nuevo offset" << endl;
-        }
+        //     newOffsetPoint[0] = pCoordenateX;
+        //     newOffsetPoint[1] = pCoordenateY;
+
+        //     coincidencePoints.at(pIndexOfPoint).offsetPoints.push_back(newOffsetPoint);
+        //     cout << "se agrego nuevo offset" << endl;
+        // }
 
         float getMaxQuadrantCoordX(){
             return maxQuadrantPoint[0];

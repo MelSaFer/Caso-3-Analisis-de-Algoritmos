@@ -41,7 +41,7 @@ int main (){
     //vector<Path*> svgPaths = pathDataProcessing(file);
 
 
-    float radians = 4.71239;
+    float radians = 0.837758;
 
     float p1[2] = {500.848, 274.711};
     float p5[2] = {505.848, 270.711};
@@ -96,7 +96,6 @@ int main (){
     cout << "---------------------------------------" << endl;
     Routing* rou = new Routing();
     selectedPaths = rou->routingPreProcess(radians, selectedPaths, 628.254, 613.516, frames);
-
 
 
 //    Generation* gen = new Generation();
